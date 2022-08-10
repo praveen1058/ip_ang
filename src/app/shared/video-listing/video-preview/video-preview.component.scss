@@ -1,0 +1,45 @@
+//.mat-dialog-container{
+//        overflow: visible !important;
+//        padding:5px;
+//        //background: #ffffff !important;
+//        height:100% !important;
+//        .close-btn-outer{
+//            position: relative;
+//            button{
+//                position: absolute;
+//                right: -44px;
+//                top: -44px;
+//            }
+//        }
+//        .mat-dialog-content{
+//            max-height: 100% !important;
+//            overflow: visible;
+//
+//video{
+//  width: inherit;
+//}
+//        }
+//}
+.video-dialog {
+  .mat-dialog-container {
+    overflow: visible !important;
+    padding: 5px;
+    .close-btn-outer {
+      position: relative;
+      button {
+        position: absolute;
+        right: -44px;
+        top: -44px;
+      }
+    }
+    .mat-dialog-content {
+      max-height: 100% !important;
+      overflow: visible;
+
+      video{
+        width: 100%;
+      }
+    }
+
+  }
+}

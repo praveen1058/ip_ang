@@ -1,0 +1,64 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+@import 'theme-reset';
+.app{
+    &.green{
+        @import "skins/green";
+        @include angular-material-theme($green-theme);
+        @include theme-reset($green-theme);
+    }
+    &.blue{
+        @import "skins/blue";
+        @include angular-material-theme($blue-theme);
+        @include theme-reset($blue-theme);
+    }
+    &.red{
+        @import "skins/red";
+        @include angular-material-theme($red-theme);
+        @include theme-reset($red-theme);
+    }
+    &.pink{
+        @import "skins/pink";
+        @include angular-material-theme($pink-theme);
+        @include theme-reset($pink-theme);
+    }
+    &.purple{
+        @import "skins/purple";
+        @include angular-material-theme($purple-theme);
+        @include theme-reset($purple-theme);
+    }
+    &.grey{
+        @import "skins/grey";
+        @include angular-material-theme($grey-theme);
+        @include theme-reset($grey-theme);
+    }
+}
+
+.bg-primary{
+    background: linear-gradient(90deg, rgb(10, 8, 33) 0%, rgb(14, 14, 19) 35%, rgb(15, 15, 24) 100%) !important;
+}
+.filter-sidenav .mat-radio-outer-circle
+{
+    border-color: #303030 !important;
+}
+
+.mat-radio-outer-circle, .mat-radio-inner-circle{
+    width: 15px !important;
+    height: 15px !important;
+    margin-top: 3px;
+}
+
+.mat-expansion-indicator::after{
+    color: #616161 !important;
+}
+.mat-button-toggle {
+    background-color: transparent !important;
+    color: #0a0821 !important;
+    border: 1px solid #607D8B;
+    //color: mat-color($primary, default-contrast);
+}
+.mat-button-toggle-checked{
+    background-color: #607D8B !important;
+    color: #ffffff !important
+}

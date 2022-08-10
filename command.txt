@@ -1,0 +1,6 @@
+ng serve
+ng serve --port 3010
+ng build --prod --aot
+
+ng build --configuration beta --aot
+ng build --configuration dev1 --aot

@@ -1,0 +1,50 @@
+.wishlist-dialog {
+  .mat-dialog-container {
+    overflow: visible !important;
+    justify-content: center;
+    align-items: center;
+    .close-btn-outer {
+      position: relative;
+      button {
+        position: absolute;
+        right: -44px;
+        top: -44px;
+      }
+    }
+    .mat-raised-button {
+      width: 85%;
+
+    }
+    ul {
+      margin-left: 30px;
+      li {
+        font-size: 14px;
+        font-weight: bold;
+
+        .mat-raised-button {
+          line-height: 25px;
+          width: 30px;
+          height: 25px;
+          margin-left: 20px
+        }
+      }
+    }
+    img{
+      max-width: 85%;
+    }
+    form{
+      width:100%;
+    }
+  }
+}
+
+
+
+
+@media only screen and (min-width: 960px) {
+  .wishlist-dialog {
+    .mat-dialog-container {
+      width: 650px;
+    }
+  }
+}

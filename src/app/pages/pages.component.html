@@ -1,0 +1,194 @@
+<mat-sidenav-container>
+
+    <mat-sidenav [opened]="false" mode="over" #sidenav class="sidenav mat-elevation-z6">
+        <button mat-icon-button color="warn" class="close" (click)="sidenav.close()">
+            <mat-icon color="warn">close</mat-icon>
+        </button>
+        <div class="divider"></div>
+        <app-sidenav-menu [menuItems]="sidenavMenuItems" [menuParentId]="0"></app-sidenav-menu>
+        <div class="divider"></div>
+        <div class="text-center py-2">
+            <a href="https://www.facebook.com/Ibudgetphoto" target="_blank">
+                <img src="../../../../assets/images/fb.jpg" width="36" matTooltip="Facebook" style="width:36px;border-radius:50px;margin-right: 10px"/>
+            </a>
+            <a href="https://www.instagram.com/_indiapicture/" target="_blank">
+                <img src="../../../../assets/images/insta.jpg" width="36" matTooltip="Instagram" style="width:36px;border-radius:50px;margin-right: 10px"/>
+            </a>
+            <a href="https://www.linkedin.com/in/indiapicture/" target="_blank">
+                <img src="../../../../assets/images/link.jpg" width="36" matTooltip="Linkdein" style="width:36px;border-radius:50px;"/>
+            </a>
+        </div>
+    </mat-sidenav>
+
+
+    <mat-toolbar color="primary" class="logo-toolbar-main">
+        <mat-toolbar-row fxLayoutAlign="space-between center" class="top-toolbar theme-container">
+            <span fxHide="false" fxHide.gt-sm>
+                <button mat-button (click)="sidenav.toggle()" class="sidenav-toggle">
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </span>
+            <span fxShow="false" fxShow.gt-xs fxLayoutAlign="center center"><mat-icon
+                    class="mat-icon-sm" style="color: #efefef ;">call</mat-icon>  &nbsp;<h6 style="font-weight: 600; font-size: 15px;">
+                <a [href]="'telephone:8882559559'" style="color: inherit; text-decoration: none;">(+91) 8882559559 &nbsp;&nbsp;</a></h6><mat-icon
+                    class="mat-icon-sm" style="color: #efefef ;">email</mat-icon>&nbsp;<h6 style="font-weight: 600; font-size: 15px;">
+                <a [href]="'mailto:info@indiapicture.in'" style="color: inherit; text-decoration: none;">care@indiapicture.in</a></h6></span>
+            <span fxShow="false" fxShow.gt-sm><a class="logo" routerLink="/" ><img [src]="[settings.logo]" style="max-width: 100%;margin-top: 20px;"/></a></span>
+
+            <app-top-menu></app-top-menu>
+        </mat-toolbar-row>
+
+        <mat-toolbar-row fxLayoutAlign="space-between center" class="logo-toolbar theme-container" id="logo-toolbar">
+
+            <div fxFlex="10"
+                fxFlex.xs="50" fxFlex.sm="60" fxHide="false" fxHide.gt-sm>
+                <a class="logo" routerLink="/" (click)="closeSubMenus()"><img [src]="[settings.logo]" style="max-width: 100%;"/></a>
+            </div>
+            <div fxFlex="10" fxShow="false" fxShow.gt-sm>
+
+            </div>
+            <div fxFlex fxShow="false" fxShow.gt-sm>
+                <form [formGroup]="searchForm" (ngSubmit)="onSubmit(searchForm.value)" fxLayout="row" class="search-form">
+                    <button mat-raised-button [matMenuTriggerFor]="categoriesMenu" #categoriesMenuTrigger="matMenuTrigger" type="button" class="mat-elevation-z0 categories text-truncate text-muted">{{category?.name}}<mat-icon>arrow_drop_down</mat-icon></button>
+                    <mat-menu #categoriesMenu="matMenu" [overlapTrigger]="false" xPosition="before" class="categories-dropdown">
+                        <span (mouseleave)="categoriesMenuTrigger.closeMenu()">
+                            <app-category-list [categories]="categories" [categoryParentId]="0" (change)="changeCategory($event)"></app-category-list>
+                        </span>
+                    </mat-menu>
+                    <input type="text" formControlName="searchText" placeholder="Search world largest collection of Indian images..." fxFlex>
+                    <button type="submit" mat-mini-fab
+                            class="search-btn mat-elevation-z0 text-muted" style="color:#000 !important">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </form>
+            </div>
+            <div fxFlex="15" fxLayout="row" fxLayoutAlign="end center" class="top-header-btn">
+                <div fxLayoutAlign="center center">
+                    <a mat-button routerLink="/lightboxlist" >
+                        <img src="../../assets/images/lightbox_icon.png">
+                        <!--<span *ngIf="settings.rtl">&rlm;</span>({{appService.Data.wishList.length}})-->
+                    </a>
+                    <button mat-button [matMenuTriggerFor]="cartMenu" #cartMenuTrigger="matMenuTrigger"
+                            class="flex-row-button">
+                        <mat-icon class="mat-icon-md">shopping_cart</mat-icon>
+                        <span *ngIf="appService.Data.totalCartCount > 0" class="cart-items-count">
+                            {{appService.Data.totalCartCount}}</span>
+                        <div fxLayout="column" fxLayoutAlign="center center" fxShow="false" fxShow.gt-xs
+                             class="top-cart">
+                            <!--<span>Shopping Cart</span>-->
+                            <!--<span *ngIf="appService.Data.totalCartCount > 0">-->
+                                <!--<bdi>{{appService.Data.totalCartCount}} item<span-->
+                                        <!--*ngIf="appService.Data.totalCartCount > 1">s</span> - -->
+                                    <!--Rs.<span>{{appService.Data.totalPrice}}</span>-->
+                                <!--</bdi>-->
+                            <!--</span>-->
+                        </div>
+                        <mat-icon class="mat-icon-sm">arrow_drop_down</mat-icon>
+                    </button>
+                    <mat-menu #cartMenu="matMenu" [overlapTrigger]="false" xPosition="before"
+                              class="top-menu-dropdown cart-dropdown">
+                        <ng-template matMenuContent>
+                            <span (mouseleave)="cartMenuTrigger.closeMenu()" class="d-block">
+                                <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted">
+                                    <b><span>{{appService.Data.totalCartCount}} ITEM<span
+                                            *ngIf="appService.Data.totalCartCount > 1">S</span></span></b>
+                                    <b><a [routerLink]="['/cart']" class="text-muted">VIEW CART</a></b>
+                                </div>
+                                <div class="divider mt-1"></div>
+                                <div *ngIf="appService.Data.totalCartCount == 0" class="py-1 text-muted text-center">You have no items in your shopping cart.</div>
+                                <mat-list>
+                                    <mat-list-item *ngFor="let product of appService.Data.cartList">
+                                        <h3 matLine class="text-muted"> {{product.filename}} </h3>
+                                        <p matLine class="text-muted">
+                                            <bdi>1 x Rs.{{product.price | number : '1.2-2'}}</bdi>
+                                        </p>
+                                        <!--<img [src]="product.images[0].small" alt="image">-->
+                                        <!--<button mat-icon-button color="warn" class="remove"-->
+                                                <!--(click)="remove(product);stopClickPropagate($event)" matTooltip="Remove"-->
+                                                <!--matTooltipPosition="before">-->
+                                            <!--<mat-icon class="mat-icon-sm">close</mat-icon>-->
+                                        <!--</button>-->
+                                    </mat-list-item>
+                                </mat-list>
+                                <div *ngIf="appService.Data.cartList.length > 0" class="cart-dropdown-footer">
+                                    <div class="divider mt-1"></div>
+                                    <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted mt-1">
+                                        <b>TOTAL:</b>
+                                        <b class="new-price">Rs.{{appService.Data.totalPrice | number : '1.2-2'}}</b>
+                                    </div>
+                                    <div class="divider mt-1"></div>
+                                    <div fxLayout="row" fxLayoutAlign="space-between center" class="mt-1">
+                                        <button mat-mini-fab color="warn" (click)="clear();stopClickPropagate($event)"
+                                                matTooltip="Clear All" matTooltipPosition="after">
+                                            <mat-icon>remove_shopping_cart</mat-icon>
+                                        </button>
+                                        <!--<a [routerLink]="['/checkout']" mat-mini-fab color="primary"-->
+                                           <!--matTooltip="Checkout" matTooltipPosition="before">-->
+                                            <!--<mat-icon>check</mat-icon>-->
+                                        <!--</a>-->
+                                    </div>
+                                </div>
+                            </span>
+                        </ng-template>
+                    </mat-menu>
+                </div>
+                <div fxLayoutAlign="center center" fxHide="false" fxHide.gt-sm>
+                    <button mat-icon-button [matMenuTriggerFor]="searchMenu" #searchMenuTrigger="matMenuTrigger"
+                            class="search-toggle-btn">
+                        <mat-icon class="mat-icon-lg">search</mat-icon>
+                    </button>
+                    <mat-menu #searchMenu="matMenu" [overlapTrigger]="false" xPosition="before"
+                              class="search-dropdown mat-elevation-z8">
+                        <ng-template matMenuContent>
+                            <!--<form method="get" fxFlex class="search-form">-->
+                            <form [formGroup]="searchForm" fxFlex (ngSubmit)="onSubmit(searchForm.value)" class="search-form">
+                                <button mat-raised-button [matMenuTriggerFor]="categories2Menu"
+                                        #categories2MenuTrigger="matMenuTrigger" type="button"
+                                        class="mat-elevation-z0 categories text-muted"
+                                        (click)="stopClickPropagate($event)">{{category?.name}}
+                                    <mat-icon>arrow_drop_down</mat-icon>
+                                </button>
+                                <mat-menu #categories2Menu="matMenu" [overlapTrigger]="false" xPosition="before"
+                                          class="categories-dropdown" >
+                                    <ng-template matMenuContent>
+                                        <span (mouseleave)="categories2MenuTrigger.closeMenu()">
+                                            <app-category-list [categories]="categories" [categoryParentId]="0"
+                                                               (change)="changeCategory($event)"></app-category-list>
+                                        </span>
+                                    </ng-template>
+                                </mat-menu>
+                                <input type="text" formControlName="searchText" placeholder="Type to search..." fxFlex
+                                       (click)="stopClickPropagate($event)">
+                                <button type="submit" mat-mini-fab
+                                        class="search-btn mat-elevation-z0 text-muted">
+                                    <mat-icon>search</mat-icon>
+                                </button>
+                            </form>
+                        </ng-template>
+                    </mat-menu>
+                </div>
+            </div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+
+    <app-menu fxShow="false" fxShow.gt-sm></app-menu>
+
+
+    <div class="theme-container main">
+        <!--<app-breadcrumb></app-breadcrumb>-->
+        <router-outlet></router-outlet>
+    </div>
+
+
+    <app-options></app-options>
+
+    <app-footer></app-footer>
+
+    <div *ngIf="showBackToTop" fxLayout="row" fxLayoutAlign="center center" class="back-to-top transition"
+         (click)="scrollToTop()">
+        <mat-icon>arrow_upward</mat-icon>
+    </div>
+
+
+</mat-sidenav-container>

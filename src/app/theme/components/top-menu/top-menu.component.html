@@ -1,0 +1,57 @@
+<div class="top-menu">
+    <span fxShow="false" fxShow.gt-sm>
+
+                <a routerLink="/subscription" class="pricing-btn"><strong>Plans & Pricing</strong></a>&nbsp;&nbsp;
+
+    </span>
+
+    <span  *ngIf="!currentUser">
+          <a href="https://indiapicture.in/exclusive/" target="_blank"
+             mat-raised-button color="accent" class="text-center" style="color: #383838; margin-right: 10px;">
+                    Exclusive
+                </a>
+        <a mt-2 mat-raised-button routerLink="/sign-in" class="btn-sign">Sign In</a>&nbsp;&nbsp;
+        <a mt-2 mat-raised-button routerLink="/sign-in" class="btn-sign" style="margin-right: 15px;">Register</a>
+    </span>
+
+    <a mat-button [matMenuTriggerFor]="accountMenu" #accountMenuTrigger="matMenuTrigger" *ngIf="currentUser" style="margin-right: 20px;" >
+        <mat-icon class="mat-icon-sm account-icon">person</mat-icon> <span fxShow="false" fxShow.gt-sm>account</span> <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+    </a>
+    <mat-menu #accountMenu="matMenu" [overlapTrigger]="false" xPosition="before" class="app-dropdown account">
+        <span>
+            <!--(mouseleave)="accountMenuTrigger.closeMenu()">-->
+            <div fxLayout="row" fxLayoutAlign="space-around center" class="user-info">
+                <img src="assets/images/others/user.jpg" alt="user-image" width="50">
+                <p>{{currentUser?.customers_firstname}} {{currentUser?.customers_lastname}} <br>
+                    <!--<small>-->
+                    <!--{{currentUser?.customers_lastname}}-->
+                    <!--<span *ngIf="settings.rtl">&rlm;</span>(152<mat-icon class="mat-icon-xs">star</mat-icon>)</small>-->
+                </p>
+            </div>
+            <div class="divider"></div>
+            <a mat-menu-item routerLink="/account">
+                <mat-icon class="mat-icon-sm">settings</mat-icon>
+                <span>Account Settings</span>
+            </a>
+            <a mat-menu-item routerLink="/lightboxlist">
+                  <img src="../../assets/images/lightbox_icon.png" width="25" style="margin-right: 16px;vertical-align: middle;">
+                <span>My Lightbox
+                </span>
+            </a>
+            <!--<a mat-menu-item routerLink="/"> -->
+                <!--<mat-icon class="mat-icon-sm">lock</mat-icon>-->
+                <!--<span>Lock screen</span> -->
+            <!--</a>-->
+            <a mat-menu-item routerLink="/account/download/image">
+                <mat-icon class="mat-icon-sm">help</mat-icon>
+                <span>My Purchases</span>
+            </a>
+            <div class="divider"></div>
+            <a mat-menu-item (click)="logout()">
+                <mat-icon class="mat-icon-sm">power_settings_new</mat-icon>
+                <span>Sign Out</span>
+            </a>
+        </span>
+    </mat-menu>
+
+</div>

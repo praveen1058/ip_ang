@@ -1,0 +1,50 @@
+<div class="flexbin flexbin-margin">
+    <div *ngFor="let product of results; let i=index;" class="product-item" (mouseenter)="hover( product.id)">
+        <div *ngIf="product.type==null || product.type=='Image'">
+            <a target="_blank"   [routerLink]="['/detail', product?.collection, product?.collection == '93' ? product?.filename : product?.id, product?.caption]"
+                [queryParams]="{category: product.category}">
+
+            <img [lazyLoad]="product?.thumbnail"
+            [useSrcset]="true"
+            *ngIf="(product.collection=='93' || product.collection=='179' || product.collection=='210')">
+
+            <img [lazyLoad]="product.preview" [useSrcset]="true"
+                 *ngIf="!(product.collection=='93' || product.collection=='179' || product.collection=='210')"/></a>
+
+            <div class="icons" style="position: absolute;top: 0">
+                <app-controls [product]="product"
+                              (onOpenProductDialog)="openDialog(product)"></app-controls>
+            </div>
+            <div style="position: absolute;bottom: 0; padding: 10px">
+                <div class="title text-truncate" style="color: #ffffff !important;">
+                    <h5 class="category text-muted">{{ ( appService.Data.categories | filterById :
+                        product?.collection )?.name }}</h5>
+                    {{product?.id}}
+                </div>
+
+            </div>
+        </div>
+        <div *ngIf="product.type=='Video'" (mouseenter)="hoverVideo(i)">
+            <a target="_blank"  [routerLink]="['/video-detail', product.collection,product.id, product.caption]"
+               [queryParams]="{category: product.category}">
+                <video oncontextmenu="return false;" *ngIf="product.isHover" onmouseenter="this.play();"
+                       onmouseout="this.pause()"
+                       src="{{product.preview}}"
+                       poster="{{product.thumbnail}}"></video>
+
+                <img [lazyLoad]="product.thumbnail" *ngIf="!product.isHover"
+                     [useSrcset]="true">
+            </a>
+            <div class="icons" style="position: absolute;top: 0" >
+                <app-controls [product]="product"
+                              (onOpenProductDialog)="openVideoDialog(product)"></app-controls>
+            </div>
+            <div style="position: absolute; bottom: 0; padding: 10px">
+            <div class="title text-truncate" style="color: #ffffff !important;">
+                {{product.max_size}} &nbsp;{{product.time}}&nbsp;&nbsp;
+                <span style="float: right"> {{product.author}}</span>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

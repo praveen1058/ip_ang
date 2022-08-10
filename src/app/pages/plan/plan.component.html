@@ -1,0 +1,312 @@
+<div class="main-slider">
+
+    <div class="row wrap" style="background: linear-gradient(0deg, rgba(255, 0, 150, 0.25), rgba(255, 0, 150, 0.25)),
+    url('../../../assets/images/plan_bk.jpg')">
+        <h1 class="heading" style="padding-top: 40px;">Simplified Plans and Pricing Designed to Meet Your Needs.</h1>
+        <p class="text-center mt-1" style="font-size:24px;">Get Bigger Savings on packages with access to millions of
+            images
+            which are updated daily.</p>
+
+        <mat-tab-group style="margin-top: 40px;">
+            <mat-tab label="Image Packages" class="mt-1">
+                <div class="pricingdiv row-wrap">
+                    <div fxFlex="100" fxLayoutAlign="center center">
+                        <mat-radio-group name="largeList" fxFlex="100" fxFlex.gt-sm="40" fxFlex.gt-xs="60"
+                                         (change)="changePlan($event,'large')">
+                            <mat-card>
+                                <ul class="theplan">
+                                    <li class="title">Large Images</li>
+                                    <li class="text-center" style="margin-bottom: 30px;">Need a plan for business or any
+                                        project? We have Image and video plans for any budget.
+                                    </li>
+                                    <!--                                    <li class="text-center">-->
+                                    <!--                                        <mat-button-toggle-group (change)="changeToggle($event,0)" color="primary"-->
+                                    <!--                                                                 value="monthly">-->
+                                    <!--                                            <mat-button-toggle value="monthly">Monthly</mat-button-toggle>-->
+                                    <!--                                            <mat-button-toggle value="yearly">Yearly</mat-button-toggle>-->
+                                    <!--                                        </mat-button-toggle-group>-->
+                                    <!--                                    </li>-->
+<!--                                    <li class="dark-list" fxFlex="100" style="border-bottom: 1px solid #ddd;"></li>-->
+                                    <li class="dark-list" fxFlex="100" fxFlex.gt-xs="80"
+                                        style="border-bottom: 1px solid #ddd;"
+                                        *ngFor="let plan of planList | filterBySize :{name:'Larger', days : showDays[0]}">
+
+                                        <mat-radio-button color="primary" fxFlex="50" name="largeList"
+                                                          *ngIf="plan.no_of_images>1"
+                                                          value="{{plan.id}}" [checked]="planId.large==plan.id">
+                                            <div fxFlex="70"> {{plan.no_of_images}} Images <br/>
+                                                <div class="small-title"> ₹ {{plan.amount}}</div>
+                                            </div>
+                                        </mat-radio-button>
+                                        <div fxFlex="30" *ngIf="plan.no_of_images>1">
+                                            ₹ {{plan.amount / plan.no_of_images}}
+                                            <br/><span
+                                                class="small-title">per download</span></div>
+                                        <div fxFlex="20" *ngIf="plan.no_of_images>1">
+                                            <span style="font-size: 14px; color: #607D8B">
+                                              <b> Save INR</b><br/>₹ {{(singlePrice.large * plan.no_of_images) - plan.amount}}</span>
+                                        </div>
+
+                                    </li>
+
+                                    <li>
+                                        <div style="text-align: center;">
+                                            <!-- <button class="pricebutton" (click)="checkout('large')"
+                                                    target="_blank"
+                                                    rel="nofollow"><span
+                                                    class="icon-tag"></span> Buy Now
+                                            </button> -->
+                                            <button class="pricebutton" (click)="checkoutCashfree('large')"
+                                                    target="_blank"
+                                                    rel="nofollow"><span
+                                                    class="icon-tag"></span> Buy Now
+                                            </button>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </mat-card>
+                        </mat-radio-group>
+
+                    </div>
+                </div>
+            </mat-tab>
+
+            <mat-tab label="Video Packages">
+
+                <mat-tab-group class="mt-1 pack_tab" [selectedIndex]="selectedIndex">
+                    <mat-tab label="HD Pack">
+                        <div class="pricingdiv row-wrap">
+                            <div fxFlex="100" fxLayoutAlign="center center" fxLayoutGap="3%">
+                                <mat-radio-group class="mt-1" name="hdPlanList" fxFlex="100" fxFlex="100"
+                                                 fxFlex.gt-sm="40" fxFlex.gt-xs="60"
+                                                 (change)="changePlan($event,'hd')">
+
+                                    <mat-card>
+                                        <ul class="theplan">
+                                            <li class="title"><b>HD Videos</b></li>
+                                            <li class="text-center" style="margin-bottom: 30px;">Need a plan for
+                                                business or any project? We have Image and video plans for any budget.
+                                            </li>
+                                            <li class="text-center">
+                                                <mat-button-toggle-group (change)="changeToggle($event,1)"
+                                                                         color="primary" value="monthly">
+                                                    <mat-button-toggle value="monthly">Monthly</mat-button-toggle>
+                                                    <mat-button-toggle value="yearly">Yearly</mat-button-toggle>
+                                                </mat-button-toggle-group>
+                                            </li>
+                                            <li class="dark-list" fxFlex="100" style="border-bottom: 1px solid #ddd;"></li>
+                                            <li class="dark-list" fxFlex="100" style="border-bottom: 1px solid #ddd;"
+                                                *ngFor="let plan of planList | filterBySize :{name:'HD', days : showDays[1]}">
+                                                <mat-radio-button color="primary" fxFlex="50" name="hdPlanList"
+                                                                  *ngIf="plan.no_of_images>1"
+                                                                  value="{{plan.id}}" [checked]="planId.hd==plan.id">
+                                                    <div fxFlex="70"> {{plan.no_of_images}} Footage <br/>
+                                                        <div class="small-title"> ₹ {{plan.amount}}</div>
+                                                    </div>
+                                                </mat-radio-button>
+                                                <div fxFlex="30" *ngIf="plan.no_of_images>1">
+                                                    ₹ {{plan.amount / plan.no_of_images}}
+                                                    <br/><span
+                                                        class="small-title">per download</span></div>
+                                                <div fxFlex="20" *ngIf="plan.no_of_images>1">
+                                            <span style="font-size: 14px; color: #607D8B">
+                                               <b> Save INR</b><br/>₹ {{(singlePrice.hd * plan.no_of_images) - plan.amount}}</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div style="text-align: center;">
+                                                    <button class="pricebutton" (click)="checkoutCashfree('hd')"
+                                                            target="_blank"
+                                                            rel="nofollow"><span
+                                                            class="icon-tag"></span> Buy Now
+                                                    </button>
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </mat-card>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="4K Pack">
+                        <div class="pricingdiv row-wrap">
+                            <div fxFlex="100" fxLayoutAlign="center center" fxLayoutGap="3%">
+                                <mat-radio-group class="mt-1" name="4kPlanList" fxFlex="100" fxFlex="100"
+                                                 fxFlex.gt-sm="40" fxFlex.gt-xs="60"
+                                                 (change)="changePlan($event,'four_k')">
+                                    <mat-card>
+                                        <ul class="theplan">
+                                            <li class="title"><b>4K Videos</b></li>
+                                            <li class="text-center" style="margin-bottom: 30px;">Need a plan for
+                                                business or any project? We have Image and video plans for any budget.
+                                            </li>
+                                            <li class="text-center">
+                                                <mat-button-toggle-group (change)="changeToggle($event,2)"
+                                                                         color="primary" value="monthly">
+                                                    <mat-button-toggle value="monthly">Monthly</mat-button-toggle>
+                                                    <mat-button-toggle value="yearly">Yearly</mat-button-toggle>
+                                                </mat-button-toggle-group>
+                                            </li>
+                                            <li class="dark-list" fxFlex="100" style="border-bottom: 1px solid #ddd;"></li>
+                                            <li class="dark-list" fxFlex="100" style="border-bottom: 1px solid #ddd;"
+                                                *ngFor="let plan of planList | filterBySize :{name:'4K' , days : showDays[2]}">
+
+                                                <mat-radio-button color="primary" fxFlex="50" name="4kPlanList"
+                                                                  *ngIf="plan.no_of_images>1"
+                                                                  value="{{plan.id}}"
+                                                                  [checked]="planId.four_k==plan.id">
+                                                    <div fxFlex="70"> {{plan.no_of_images}} Footage <br/>
+                                                        <div class="small-title"> ₹ {{plan.amount}}</div>
+                                                    </div>
+                                                </mat-radio-button>
+                                                <div fxFlex="30" *ngIf="plan.no_of_images>1">
+                                                    ₹ {{plan.amount / plan.no_of_images}}
+                                                    <br/><span
+                                                        class="small-title">per download</span></div>
+                                                <div fxFlex="20" *ngIf="plan.no_of_images>1">
+                                            <span style="font-size: 14px; color: #607D8B">
+                                            <b> Save INR</b><br/>₹ {{(singlePrice["4k"] * plan.no_of_images) - plan.amount}}</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div style="text-align: center;">
+                                                    <button class="pricebutton" (click)="checkoutCashfree('four_k')"
+                                                            target="_blank"
+                                                            rel="nofollow"><span
+                                                            class="icon-tag"></span>Buy Now
+                                                    </button>
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </mat-card>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+
+            </mat-tab>
+        </mat-tab-group>
+
+
+        <div class="row wrap" fxLayoutAlign="center center">
+            <div fxFlex="100" style="padding: 5px 15% 30px 15%">
+                <div class="px-2">
+                    <p class="text-center" style="font-weight: bolder;">*Terms & conditions apply.</p>
+                    <p class="text-center mt-1" style="font-weight: bolder;"><em>For videos- It comprises of our budget
+                        collections only.
+                        <br/>Please read the
+                        <a [routerLink]="['/license']" style="color: #ffffff "> End-User License Agreement </a> for
+                        usage of the images/videos</em></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-main-carousel [slides]="slides" [type]="'Image-text'" *ngIf="slides.length>0"
+                       [width]="'350'"></app-main-carousel>
+
+
+    <div class="row wrap p-3" fxLayoutAlign="center center" style="background: #18023C ">
+        <div fxFlex="100" class="hightlight-text">
+            <!--                <mat-card style="padding: 50px 0 !important;">-->
+            <!--                    <h2 class="text-center">Need a single 4K clip? Get it now for just US$ 179</h2>-->
+            <!--                </mat-card>-->
+
+<!--            <div class="p-3" style="border: 5px solid #fff; border-radius: 15px;">-->
+            <div>
+                <p class="text-center" style="font-size:20px; font-weight: bolder;">
+                    Flexible Image & Footage plans or get a customized one as per your needs.
+                    <br/> Need a custom plan call us at 8882559559</p>
+            </div>
+        </div>
+    </div>
+
+    <div fxLayout="row wrap" fxLayoutAlign="center center" style="padding-top: 30px;">
+        <div fxFlex="100" class="hightlight-text">
+            <div>
+                <h1 class="text-center">
+                    Request a demo of Indiapicture Exclusive for your business.</h1>
+            </div>
+        </div>
+    </div>
+
+    <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="2%" class="info-bar px-4" style="margin-bottom: 20px;">
+        <div fxFlex="100" fxFlex.gt-md="31" fxFlex.gt-xs="100">
+            <mat-card class="dark-block" fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="mat-icon-xlg text-muted m-0">card_giftcard</mat-icon>
+                <div class="content">
+                    <p>Multi-user plans with bulk downloads</p>
+                    <span class="text-muted m-0">No matter what type of image you&#39;re looking for the team downloads - be it a
+landscape or portrait - we have it in our library.</span>
+                </div>
+            </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="31" fxFlex.gt-xs="100">
+            <mat-card class="dark-block" fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="mat-icon-xlg text-muted m-0">local_shipping</mat-icon>
+                <div class="content">
+                    <p>Lightboxes to share your beautiful finds</p>
+                    <span class="text-muted m-0">Share your favourite images with colleagues, friends, and family with our lightboxes.
+It's easy and fast!</span>
+                </div>
+            </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="31" fxFlex.gt-xs="100">
+            <mat-card class="dark-block" fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="mat-icon-xlg text-muted m-0">monetization_on</mat-icon>
+                <div class="content">
+                    <p>Sub-user comp download</p>
+                    <span class="text-muted m-0">We also offer sub-user comp downloads so that you can give access to your team
+members without any hassle.</span>
+                </div>
+            </mat-card>
+        </div>
+        <div fxFlex="100" class="py-3" fxLayoutAlign="center center">
+            <a href="https://indiapicture.in/exclusive/" target="_blank" mat-raised-button color="accent" class="text-center">
+                Visit Indiapicture Exclusive
+            </a>
+        </div>
+    </div>
+    <div class="row wrap " ngClass.gt-xs="px-5" fxLayoutAlign="center center" style="margin-bottom: 10px;">
+        <div fxFlex="100"
+             style="background: linear-gradient(0deg, rgba(0, 0, 50, 0.25), rgba(0, 0, 50, 0.5)),
+              url('../../../assets/images/plan_banner_03.jpg')">
+
+            <div class="p-2 text-center"><h1 class="text-center">Add life to your video projects </h1>
+
+                <h2 class="text-center p-1">
+                    Discover a vibrant collection of extraordinary stock footage and motion clips to find exactly what
+                    you need.
+                </h2>
+                <div class="py-1"><a [routerLink]="['/sign-in']" mat-raised-button color="accent" class="text-center">
+                    Explore Now
+                </a></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- <div class="pricingdiv row-wrap">
+    <form #form ngNoForm
+          id="nonseamless"
+          method="post"
+          name="redirect"
+          action="{{ccavenueUrl}}">
+        <input type="hidden" id="encRequest" name="encRequest" value="{{encRequestRes}}">
+        <input type="hidden" name="access_code" id="access_code" value="{{accessCode}}">
+    </form>
+
+</div> -->
+<div class="pricingdiv row-wrap">
+    <form #form ngNoForm
+          id="nonseamless"
+          method="post"
+          name="redirect"
+          action="{{cashfreeUrl}}">
+        <input type="hidden" id="encRequest" name="encRequest" value="{{encRequestRes}}">
+    </form>
+</div>

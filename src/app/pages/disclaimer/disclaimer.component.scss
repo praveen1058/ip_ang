@@ -1,0 +1,21 @@
+.content-container{
+  padding: 10px 60px 50px 60px;
+}
+li{
+  margin-top: 10px;
+}
+
+.blockquotes{
+  border-left: 8px solid #455a64;
+  font-style: italic;
+
+  div{
+    padding-left:20px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .content-container{
+    padding: 10px 10px 50px 10px;
+  }
+}

@@ -1,0 +1,23 @@
+<mat-toolbar class="top-navbar mat-elevation-z2"
+             fxLayoutAlign="space-between center" style="background: transparent !important;box-shadow: none;">
+    <!--<mat-toolbar-row >-->
+   <span fxLayoutAlign="center center" >
+       <a [class.activebtn]="nav.sidenav.opened"  mat-icon-button (click)="nav.sidenavToggle()" *ngIf="nav.visible">
+       <mat-icon>filter_list</mat-icon> &nbsp;<strong>Filters</strong>
+   </a></span>
+    <span>
+    <a [class.activelink]="category==1" mat-button routerLink="/" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Creative </a>
+    <a [class.activelink]="category==3" mat-button [routerLink]="['/editorial']" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Editorial</a>
+    <a [class.activelink]="category==2 || category==4" mat-button [routerLink]="['/videos']" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Videos</a>
+    <!--<a mat-button routerLink="/contact" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Contact </a>-->
+ </span>
+        <span fxLayoutAlign="center center">
+            <button mat-icon-button (click)="nav.changeView(3)"  *ngIf="nav.visible" [class.active]="!nav.viewType">
+                    <mat-icon>view_module</mat-icon>
+                </button>
+                <button mat-icon-button (click)="nav.changeView(4)"  *ngIf="nav.visible" [class.active]="nav.viewType">
+                    <mat-icon>view_comfy</mat-icon>
+                </button></span>
+<!--</mat-toolbar-row>-->
+</mat-toolbar>
+

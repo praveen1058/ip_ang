@@ -1,0 +1,14 @@
+<div *ngIf="slides.length>0" style="margin-bottom: 50px;">
+<app-main-carousel [slides]="slides" [type]="'Image'" [width]="'500'"></app-main-carousel>
+</div>
+<h2 class="heading">Popular Stock Image Collections</h2>
+<app-editorial-banners [banners]="banners" [category]="1"></app-editorial-banners>
+<br/>
+<app-banners-video [banners]="videoBanners"></app-banners-video>
+<!--<app-banners [banners]="banners"></app-banners>-->
+
+<!--<app-products-carousel [results]="creativeImages"></app-products-carousel>-->
+<!--<mat-chip-list *ngIf="!creativeImages" style="overflow: hidden">-->
+    <!--<mat-chip  selected="true" style="overflow: hidden">Loading...</mat-chip>-->
+<!--</mat-chip-list>-->
+

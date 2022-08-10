@@ -1,0 +1,98 @@
+.banners-container{
+    margin: 22px -8px;
+}
+.info {
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    transition: 0.15s ease-in;
+    display: none;
+    text-align: center;
+    h1 {
+        font-size: 36px;
+    }
+    .title {
+        font-weight: 500;
+        text-align: center;
+        padding-top: 60px;
+    }
+    .subtitle {
+        font-weight: normal;
+        font-style: italic;
+        text-align: center;
+    }
+}
+    .banner:hover{
+        .info {
+            display: block;
+        }
+    }
+
+
+
+$flexbin-row-height: 350px !default;
+$flexbin-space: 10px !default;
+
+$flexbin-tablet-max: 980px !default;
+$flexbin-row-height-tablet: 250px !default;
+$flexbin-space-tablet: $flexbin-space !default;
+
+$flexbin-phone-max: 400px !default;
+$flexbin-row-height-phone: 200px !default;
+$flexbin-space-phone: $flexbin-space !default;
+
+// Minxin for customize multiple Flexbin layout
+// For example, 300px height for desktop devices, 150px height for mobile devices
+@mixin flexbin($row-height, $space) {
+    display: flex;
+    overflow: hidden;
+    flex-wrap: wrap;
+    margin: - $space / 2;
+
+    // Let final row align left fit if images are not enough to fill
+    // If the gap is very small, fill the final row
+    &:after {
+        content: '';
+        flex-grow: 999999999; // avoid final row zoom too much to fit width
+        min-width: $row-height; // avoid small gap in final row (< $row-height)
+        height: 0;
+    }
+
+    > * {
+        position: relative;
+        display: block;
+        height: $row-height;
+        margin: $space / 2;
+        flex-grow: 1;
+    }
+
+    img {
+        height: $row-height;
+        object-fit: cover;
+        max-width: 100%;
+        min-width: 100%;
+        vertical-align: middle;
+    }
+    // Add margin around flexbin gallery
+    // Visual margin is the same with space between rows
+    &.flexbin-margin {
+        margin: $space / 2;
+    }
+}
+
+// CSS class for basic usage
+.flexbin {
+    // Desktop devices
+    @include flexbin($flexbin-row-height, $flexbin-space);
+
+    // Tablet devices
+    @media (max-width: $flexbin-tablet-max) {
+        @include flexbin($flexbin-row-height-tablet, $flexbin-space-tablet);
+    }
+
+    // Phone devices
+    @media (max-width: $flexbin-phone-max) {
+        @include flexbin($flexbin-row-height-phone, $flexbin-space-phone);
+    }
+}

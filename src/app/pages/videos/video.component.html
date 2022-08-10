@@ -1,0 +1,9 @@
+<div *ngIf="slides.length>0" style="margin-bottom: 50px;">
+<app-main-carousel [slides]="slides" [type]="'Video'" [width]="'500'"></app-main-carousel>
+</div>
+
+<h2 class="heading">Recent Stock Videos</h2>
+<app-video-listing [results]="videos" *ngIf="videos"></app-video-listing>
+<mat-chip-list *ngIf="!videos" style="overflow: hidden">
+    <mat-chip  selected="true" style="overflow: hidden">Loading...</mat-chip>
+</mat-chip-list>

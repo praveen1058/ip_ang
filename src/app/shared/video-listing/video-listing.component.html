@@ -1,0 +1,22 @@
+<div class="flexbin flexbin-margin">
+<div *ngFor="let product of results; let i=index" class="product-item" (mouseenter)="hover(i)">
+<a target="_blank" [routerLink]="['/video-detail', product.collection,product.id, product.caption]" [queryParams]="{category: product.category}">
+    <video oncontextmenu="return false;" *ngIf="product.isHover"  onmouseenter="this.play();"
+           onmouseout="this.pause()"
+           src="{{product.preview}}"
+           poster="{{product.thumbnail}}"> </video>
+
+    <img [lazyLoad]="product.thumbnail" *ngIf="!product.isHover"
+         [useSrcset]="true">
+</a>
+<div class="icons" style="position: absolute;top: 0">
+<app-controls [product]="product"
+(onOpenProductDialog)="openDialog(product)"></app-controls>
+</div>
+<div class="title text-truncate">
+    {{product.max_size}} &nbsp;{{product.time}}
+    <span style="float: right"> {{product.author}}</span>
+</div>
+</div>
+</div>
+<br/><br/>

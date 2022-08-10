@@ -1,0 +1,31 @@
+[
+  {
+    "title": "The biggest sale",
+    "subtitle": "Special for today",
+    "image": "assets/images/carousel/5.jpg",
+    "keyword": "special",
+    "category": "4"
+
+  },
+  {
+    "title": "Summer collection",
+    "subtitle": "New Arrivals On Sale",
+    "image": "assets/images/carousel/6.jpg",
+    "keyword": "special",
+    "category": "5"
+  },
+  {
+    "title": "The biggest sale",
+    "subtitle": "Special for today",
+    "image": "assets/images/carousel/7.jpg",
+    "keyword": "special",
+    "category": "6"
+  },
+  {
+    "title": "The biggest sale",
+    "subtitle": "Special for today",
+    "image": "assets/images/carousel/8.jpg",
+    "keyword": "special",
+    "category": "7"
+  }
+]

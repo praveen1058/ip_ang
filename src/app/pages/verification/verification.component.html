@@ -1,0 +1,22 @@
+<div fxLayout="row" fxLayoutAlign="center center" class="h-100 mt-2">
+    <div fxFlex="80" fxFlex.gt-sm="30" fxFlex.sm="60">
+        <mat-card class="p-0 mat-elevation-z6 box">
+            <div fxLayout="column" fxLayoutAlign="center center" class="bg-primary box-header">
+                <mat-icon class="mat-icon-xlg">success</mat-icon>
+                <h3 class="error">Verification Mail</h3>
+            </div>
+            <mat-card-content fxLayout="column" fxLayoutAlign="end center" class="box-content">
+                <mat-card fxLayout="column" fxLayoutAlign="center center" class="mat-elevation-z8 box-content-inner">
+                    <p class="box-text">To get started please verify your email</p>
+                    <p class="box-text">Just one click away from being a part of IndiaPicture!</p>
+                </mat-card>
+                <div class="box-footer">
+                    <button mat-raised-button color="primary" class="mat-elevation-z8" type="button" (click)="verify()">
+                        Verify Account
+                    </button>
+
+                </div>
+            </mat-card-content>
+        </mat-card>          
+    </div>
+</div>

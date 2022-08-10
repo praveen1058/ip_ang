@@ -1,0 +1,89 @@
+<div *ngIf="appService.Data.cartList.length == 0">
+  <mat-chip-list>
+      <mat-chip color="warn" selected="true">YOU HAVE NO ITEMS IN YOUR SHOPPING CART.</mat-chip>
+  </mat-chip-list>
+  <a [routerLink]="['/']" mat-raised-button color="primary" class="mt-2">Continue shopping</a>
+</div>
+
+<mat-card *ngIf="appService.Data.cartList?.length > 0" class="p-2">
+
+  <div class="mat-table cart-table">
+    <div class="mat-header-row">
+      <div class="mat-header-cell" style="max-width: 60px;">Product</div>
+      <div class="mat-header-cell">Name</div>
+      <div class="mat-header-cell">Type</div>
+      <div class="mat-header-cell">Size</div>
+      <div class="mat-header-cell">License</div>
+      <div class="mat-header-cell">Total</div>
+      <div class="mat-header-cell text-center">
+        <div class="px-1">
+          <button mat-raised-button color="warn" (click)="clear()">Clear All</button>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let product of appService.Data.cartList" class="mat-row">
+      <div class="mat-cell" style="max-width: 60px;"><img [src]="product.thumbnail"></div>
+      <div class="mat-cell">
+       <a *ngIf="product.type=='Image'" [routerLink]="['/detail', product.collection, product.id, product.caption]" [queryParams]="{category: product.category}" class="product-name">{{product.filename}}</a>
+       <a *ngIf="product.type=='Video'" [routerLink]="['/video-detail', product.collection, product.id, product.caption]" [queryParams]="{category: product.category}" class="product-name">{{product.filename}}</a></div>
+
+      <div class="mat-cell text-muted">{{product.type}}</div>
+        <div class="mat-cell">{{product.size}}</div>
+        <div class="mat-cell">{{product.license}}</div>
+        <!--<app-controls [product]="product" [type]="'wish'" (onQuantityChange)="updateCart($event)"></app-controls>-->
+
+      <div class="mat-cell">Rs.{{product.price | number : '1.2-2'}}</div>
+      <div class="mat-cell text-center">
+        <div class="p-1">
+          <button mat-mini-fab color="warn" (click)="remove(product)" matTooltip="Clear">
+              <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <div class="mat-row">
+      <div class="mat-cell"><a [routerLink]="['/']" mat-raised-button color="primary">Add more images</a></div>
+      <div class="mat-cell"></div>
+      <div class="mat-cell"></div>
+      <div class="mat-cell text-right">
+        <div fxLayout="column" fxLayoutAlign="center end" class="grand-total px-2">
+          <span>SubTotal:</span>
+          <span class="text-muted">Tax (18%):</span>
+          <span class="new-price">Grand total:</span>
+        </div>
+      </div>
+      <div class="mat-cell">
+        <div fxLayout="column" fxLayoutAlign="center start" class="grand-total">
+          <span>Rs. {{ appService.Data.totalPrice | number : '1.2-2'}}</span>
+          <span class="text-muted">Rs.{{appService.Data.totalPrice*0.18}}</span>
+          <span class="new-price">Rs. {{ (appService.Data.totalPrice + (appService.Data.totalPrice*0.18)) | number : '1.2-2'}}</span>
+        </div>
+      </div>
+      <!-- <div class="mat-cell text-center"><a (click)="checkout()" mat-raised-button color="primary">Proceed To Checkout</a></div> -->
+      <div class="mat-cell text-center"><a (click)="checkoutNew()" mat-raised-button color="primary">Proceed To Checkout</a></div>
+    </div>
+  </div>
+  <!-- <form #form ngNoForm
+        id="nonseamless"
+        method="post"
+        name="redirect"
+        action="{{ccavenueUrl}}">
+    <input type="hidden" id="encRequest" name="encRequest" value="{{encRequestRes}}">
+    <input type="hidden" name="access_code" id="access_code" value="{{accessCode}}">
+  </form> -->
+
+  <form #form ngNoForm
+        id="nonseamless"
+        method="post"
+        name="redirect"
+        action="{{cashfreeUrl}}">
+        <!-- <input type="hidden" id="customer_id" name="customer_id" value="{{this.currentUser.customers_id}}">
+        <input type="hidden" id="customer_email" name="customer_email" value="{{this.currentUser.customers_email_address}}">
+        <input type="hidden" id="customer_name" name="customer_name" value="{{this.currentUser.customers_firstname + ' ' + this.currentUser.customers_lastname}}">
+        <input type="hidden" id="customer_phone" name="customer_phone" value="{{this.currentUser.customers_telephone}}">
+        <input type="hidden" id="order_amount" name="order_amount" value="{{ (appService.Data.totalPrice + (appService.Data.totalPrice*0.12)) | number : '1.2-2'}}"> -->
+    <input type="hidden" id="encRequest" name="encRequest" value="{{encRequestRes}}">
+    <!-- <input type="hidden" name="access_code" id="access_code" value="{{accessCode}}"> -->
+  </form>
+</mat-card>

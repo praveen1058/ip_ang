@@ -1,0 +1,12 @@
+<div class="close-btn-outer">
+    <button mat-mini-fab color="warn" (click)="close()"><mat-icon>close</mat-icon></button>
+</div>
+<div mat-dialog-content>
+    <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-sm="100">
+            <img [attr.src]="images.preview" style="max-width: 100%"/>
+<!--            <img [attr.src]="images.thumbnail" style="max-width: 100%"-->
+<!--                 *ngIf="!(images.collection=='93' || images.collection=='179' || images.collection=='210')"/>-->
+        </div>
+</div>
+</div>

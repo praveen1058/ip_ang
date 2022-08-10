@@ -1,0 +1,37 @@
+<div fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.gt-md="72" fxFlex.md="68">
+    <h3>Missed the download? Contact our customer support at 8882559559</h3>
+</div>
+</div>
+<div class="mat-table orders-table mt-1">
+    <div class="mat-header-row">
+      <div class="mat-header-cell">Image</div>
+      <div class="mat-header-cell">Id</div>
+      <div class="mat-header-cell">Filename</div>
+      <div class="mat-header-cell">Size</div>
+      <div class="mat-header-cell">License</div>
+      <div class="mat-header-cell">Assign Date</div>
+      <div class="mat-header-cell">Action</div>
+    </div>
+    <div *ngFor="let order of orders" class="mat-row">
+      <div class="mat-cell"><img src="{{order.thumbnail}}" *ngIf="calculateDiff(order.created_at)<7"/></div>
+      <div class="mat-cell">{{order.image_id}}</div>
+      <div class="mat-cell">{{order.filename}}</div>
+      <div class="mat-cell">{{order.size}}</div>
+      <div class="mat-cell">{{order.license}}</div>
+      <div class="mat-cell">{{order.created_at | date :  "mediumDate"}}</div>
+      <div class="mat-cell">
+        <!--<div class="p-1 actions">-->
+          <a *ngIf="order.type=='image'" matTooltip="Download Image" (click)="downloadImage(order)" class="btn-invoice" >
+              <mat-icon>cloud_download</mat-icon>
+          </a>
+          <a *ngIf="order.type=='video'" matTooltip="Download Video" (click)="downloadVideo(order)" class="btn-invoice">
+              <mat-icon>cloud_download</mat-icon>
+          </a>
+<!--          <a *ngIf="order.download_link!=''" matTooltip="Download Image" href="{{order.download_link}}" class="btn-invoice" target="_blank"  style="color:#fff;">-->
+<!--              <mat-icon>cloud_download</mat-icon>-->
+<!--          </a>-->
+        <!--</div>-->
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,9 @@
+<mat-chip-list *ngIf="wishList?.imagesArray.length == 0" class="mt-3">
+    <mat-chip color="warn" selected="true">YOU HAVE NO ITEMS IN LIGHTBOX LIST.</mat-chip>
+</mat-chip-list>
+
+<mat-card class="mt-3" *ngIf="wishList">
+
+  <app-products-carousel [results]="wishList?.imagesArray" *ngIf="wishList"></app-products-carousel>
+
+</mat-card>

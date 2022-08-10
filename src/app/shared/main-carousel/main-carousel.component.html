@@ -1,0 +1,36 @@
+<div class="main-slider" [ngStyle]="{height: width+'px'}">
+  <div class="swiper-container h-100" [swiper]="config" *ngIf="type=='Image' || type=='Image-text'">
+    <div class="swiper-wrapper h-100">
+      <div *ngFor="let slide of slides" class="swiper-slide">
+        <div [attr.data-background]="slide.image" class="slide-item swiper-lazy" >
+            <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            <!--<div class="mask"></div>  -->
+            <div fxLayout="column" fxLayoutAlign="center start" class="content pl-3" *ngIf="type=='Image-text'" style="padding-left: 80px">
+              <h1 style="text-align: left">{{slide.title}}</h1>
+              <h1 style="text-align: left" *ngIf="slide.title2">{{slide.title2}}</h1>
+              <h3>{{slide.subtitle}}</h3>
+                <a [routerLink]="['/search',slide.keyword, slide.category]" mat-raised-button color="primary" class="mt-2"
+                   *ngIf="slide.keyword" style="">View Collection</a>
+            </div>
+        </div>
+
+
+      </div>
+    </div>
+    <div class="swiper-pagination white"></div>
+    <button mat-mini-fab color="primary" class="swiper-button-prev swipe-arrow"><mat-icon>keyboard_arrow_left</mat-icon></button>
+    <button mat-mini-fab color="primary" class="swiper-button-next swipe-arrow"><mat-icon>keyboard_arrow_right</mat-icon></button>
+  </div>
+
+  <div class="swiper-container h-100"  *ngIf="type=='Video'">
+    <div class="swiper-wrapper h-100">
+    <div *ngFor="let slide of slides" class="swiper-slide">
+      <div class="slide-item" >
+    <video [muted]="true" autoplay playsinline loop style="width: 100%"
+           poster="">
+      <source [src]="slide.image" type="video/mp4"></video>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>

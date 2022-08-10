@@ -1,0 +1,25 @@
+.product-preview{
+    .mat-dialog-container{
+        overflow: visible !important;
+        padding:5px;
+        background: #ffffff !important;
+        height: inherit;
+
+        .close-btn-outer{
+            position: relative;
+            button{
+                position: absolute;
+                right: -44px;
+                top: -44px;
+            }
+
+        }
+        img{
+            max-height: 85vh;
+        }
+        .mat-dialog-content{
+            max-height: 100% !important;
+            overflow: visible;
+        }
+    }
+}

@@ -1,0 +1,15 @@
+[
+    { "title": "Archival", "subtitle": "", "image": "assets/images/editorial/Archival.jpg","keyword": "archival" },
+    { "title": "Art And Event", "subtitle": "", "image": "assets/images/editorial/art&event.jpg","keyword": "art and event" },
+    { "title": "Culture", "subtitle": "", "image": "assets/images/editorial/culture.jpg","keyword": "culture" },
+    { "title": "Entertainment", "subtitle": "", "image": "assets/images/editorial/Entertainment.jpg" ,"keyword": "entertainment"},
+    { "title": "Fashion", "subtitle": "", "image": "assets/images/editorial/Fashion.jpg","keyword": "fashion" },
+    { "title": "Food", "subtitle": "", "image": "assets/images/editorial/food.jpg","keyword": "food" },
+    { "title": "Monument", "subtitle": "", "image": "assets/images/editorial/Monument.jpg","keyword": "monument" },
+    { "title": "News", "subtitle": "", "image": "assets/images/editorial/News.jpg" ,"keyword": "news"},
+    { "title": "Place", "subtitle": "", "image": "assets/images/editorial/Place.jpg","keyword": "place" },
+    { "title": "Politics", "subtitle": "", "image": "assets/images/editorial/Politics.jpg","keyword": "politics" },
+    { "title": "Sports", "subtitle": "", "image": "assets/images/editorial/Sports.jpg","keyword": "sports" },
+    { "title": "Travel", "subtitle": "", "image": "assets/images/editorial/Travel.jpg" ,"keyword": "travel"},
+    { "title": "Wildlife", "subtitle": "", "image": "assets/images/editorial/Wildlife.jpg","keyword": "wildlife" }
+]

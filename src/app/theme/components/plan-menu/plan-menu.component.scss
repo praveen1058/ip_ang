@@ -1,0 +1,31 @@
+.top-navbar {
+  background: #ffffff !important;
+  a {
+    color: #ffffff !important;
+  }
+  .horizontal-active-link, .activelink{
+    //border-bottom: 6px solid #ffffff;
+  }
+}
+.mat-button{
+  color: #fff !important;
+}
+
+.mat-icon-button{
+  height: inherit !important;
+}
+.active{
+  color:blue !important;
+}
+.activebtn {
+  background: #000 !important;
+  height: inherit !important;
+  width: 280px !important;
+  strong {
+    color: #ffffff !important;
+  }
+  .mat-icon{
+    color: #ffffff !important;
+  }
+}
+

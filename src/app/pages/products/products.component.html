@@ -1,0 +1,354 @@
+<mat-sidenav-container>
+    <mat-sidenav #sidenav [opened]="false" [mode]="sidenavOpen ? 'side' : 'over'"
+                 class="filter-sidenav"
+                 perfectScrollbar>
+
+        <mat-accordion displayMode="flat" multi="true">
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>Applied Filters</h4>  <a class="pl-3" style="text-decoration: underline;"
+                                                          (click)="clearAll(indianSelect, internatinalSelect)">
+                        Clear all
+                    </a>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div fxLayout="row wrap" fxLayoutAlign="column" class="filter-brands">
+        <mat-chip-list aria-label="Filter selection">
+            <mat-chip color="accent" selected *ngIf="filter.license.includes('RF')" (click)="removeFilterLicense('license','RF')">RF<mat-icon>cancel</mat-icon></mat-chip>
+            <mat-chip color="accent" selected *ngIf="filter.license.includes('RM')" (click)="removeFilterLicense('license','RM')">RM<mat-icon>cancel</mat-icon></mat-chip>
+            <mat-chip color="accent" selected *ngIf="filter.orientation" (click)="removeFilter('orientation')">{{getName('orientation')}}<mat-icon>cancel</mat-icon></mat-chip>
+            <mat-chip color="accent" selected *ngIf="filter.imageType"  (click)="removeFilter('imageType')">{{getName('imageType')}}<mat-icon>cancel</mat-icon></mat-chip>
+            <mat-chip color="accent" selected *ngIf="filter.people"  (click)="removeFilter('people')">{{getName('people')}}<mat-icon>cancel</mat-icon></mat-chip>
+            <mat-chip color="accent" selected *ngIf="filter.gender"  (click)="removeFilter('gender')">{{getName('gender')}}<mat-icon>cancel</mat-icon></mat-chip>
+            <mat-chip color="accent" selected *ngIf="filter.age"  (click)="removeFilter('age')">{{getName('age')}}<mat-icon>cancel</mat-icon></mat-chip>
+            <mat-chip color="accent" selected *ngIf="filter.ethnicity"  (click)="removeFilter('ethnicity')">{{getName('ethnicity')}}<mat-icon>cancel</mat-icon></mat-chip>
+            <mat-chip color="accent" selected *ngIf="indianCollid.length>0"  (click)="removeFilterColl('indian-coll', indianSelect)">{{getName('indian-coll')}}<mat-icon>cancel</mat-icon></mat-chip>
+            <mat-chip color="accent" selected *ngIf="internaltionalCollid.length>0"  (click)="removeFilterColl('inter-coll', internatinalSelect)">{{getName('inter-coll')}}<mat-icon>cancel</mat-icon></mat-chip>
+        </mat-chip-list>
+
+
+
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion displayMode="flat" multi="true">
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>Sorting</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div fxLayout="row wrap" fxLayoutAlign="column" class="filter-brands">
+                    <button mat-raised-button *ngFor="let sort of sortings"
+                            (click)="sort.selected = !sort.selected;changeSorting()"
+                            [class.selected]="sort.selected" class="sort-btn">
+                        {{sort.name}}
+                    </button>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel expanded *ngIf="categoryId != 3">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>License Type</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div fxLayout="row wrap" fxLayoutAlign="column" class="filter-brands">
+                    <button mat-raised-button *ngFor="let license of license_type"
+                            (click)="license.selected = !license.selected;changeLicense()"
+                            [class.selected]="license.selected">
+                        {{license.name}}
+                    </button>
+                </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>Orientation</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-radio-group name="orientationList" fxLayout="column" (change)="changeOrientation($event)">
+                    <mat-radio-button color="primary" name="orientationList"  *ngFor="let orientation of orientations" [checked]="orientation.value == filter.orientation" value="{{orientation.value}}">{{orientation.name}}</mat-radio-button>
+                </mat-radio-group>
+            </mat-expansion-panel>
+            <mat-expansion-panel expanded *ngIf="categoryId != 3">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>Image Type</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-radio-group name="imagTypeList" fxLayout="column" (change)="changeImageType($event)">
+                    <mat-radio-button color="primary" name="imagTypeList"  *ngFor="let type of imageTypes" [checked]="type.value == filter.imageType" value="{{type.value}}">{{type.name}}</mat-radio-button>
+                </mat-radio-group>
+            </mat-expansion-panel>
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>No of People</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-radio-group name="peopleList" fxLayout="column" (change)="changePeople($event)">
+                    <mat-radio-button color="primary" name="peopleList"  *ngFor="let people of peoples" [checked]="people.value == filter.people" value="{{people.value}}">{{people.name}}</mat-radio-button>
+                </mat-radio-group>
+            </mat-expansion-panel>
+            <mat-expansion-panel expanded *ngIf="categoryId != 3">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>Gender</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-radio-group name="genderList" fxLayout="column" (change)="changeGender($event)">
+                    <mat-radio-button name="genderList" color="primary"  *ngFor="let gen of gender" [checked]="gen.value == filter.gender" value="{{gen.value}}">{{gen.name}}</mat-radio-button>
+                </mat-radio-group>
+
+<!--                <mat-radio-group name="genderList" fxLayout="column" (change)="changeGender($event)">-->
+<!--                    <mat-radio-button name="genderList" *ngFor="let gen of gender" [checked]="gen.value === filter.gender" value="{{gen.value}}">{{gen.name}}</mat-radio-button>-->
+<!--                </mat-radio-group>-->
+            </mat-expansion-panel>
+            <mat-expansion-panel expanded *ngIf="categoryId != 3">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>Age</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-radio-group name="ageList" fxLayout="column" (change)="changeAge($event)">
+                    <mat-radio-button name="ageList" color="primary"  *ngFor="let age of ages" [checked]="age.value == filter.age" value="{{age.value}}">{{age.name}}</mat-radio-button>
+                </mat-radio-group>
+            </mat-expansion-panel>
+            <mat-expansion-panel expanded *ngIf="categoryId != 3">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>Ethinicity</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-radio-group name="ethinList" fxLyaout="column" (change)="changeEthinicity($event)">
+                    <mat-radio-button name="ethinList" color="primary" *ngFor="let eth of ethinicity" [checked]="eth.value == filter.ethnicity" value="{{eth.value}}">{{eth.name}}</mat-radio-button>
+                </mat-radio-group>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel class="filter-collection" expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>Collection</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-form-field appearance="outline" class="mw-100"
+                                style="color: #303030 !important; border: #303030 !important; ">
+                    <mat-label style="color: #303030 !important;">Indian Collection</mat-label>
+                    <mat-select  multiple required
+                                style="color: #303030 !important;" (selectionChange)="changeIndianSearchCollection($event)"
+                                (closed)="closeMenu()" #indianSelect>
+                        <mat-option disabled="disabled" class="filter-option" style="padding-top: 30px; padding-bottom: 30px;">
+                            <button
+                                    mat-raised-button
+                                    class="mat-primary fill text-sm pl-3"
+                                    (click)="selectAll(indianSelect, searchIndianCollection)" style="margin-left: 10px">Select All
+                            </button>
+                            <button
+                                    mat-raised-button
+                                    class="mat-accent fill text-sm"
+                                    (click)="deselectAll(indianSelect)" style="margin-left: 10px">
+                                Clear All
+                            </button>
+                        </mat-option>
+                        <mat-option *ngFor="let searchCol of searchIndianCollectionName" [value]="searchCol.id">
+                            <div fxLayout="row" fxLayoutAlign="space-between center">
+                            <span>{{searchCol.name }}</span>
+                        </div>
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="mw-100"
+                                style="color: #303030 !important; border: #303030 !important; ">
+                    <mat-label style="color: #303030 !important;">International Collection</mat-label>
+                    <mat-select  multiple required
+                                style="color: #303030 !important;" (selectionChange)="changeInternationalSearchCollection($event)"
+                                (closed)="closeMenu()" #internatinalSelect>
+
+                        <mat-option disabled="disabled" class="filter-option" style="padding-top: 30px; padding-bottom: 30px;">
+                            <button
+                                    mat-raised-button
+                                    class="mat-primary fill text-sm" style="margin-left: 10px"
+                                    (click)="selectAll(internatinalSelect, searchInternationalCollection)">Select All
+                            </button>
+                            <button
+                                    mat-raised-button
+                                    class="mat-accent fill text-sm"
+                                    (click)="deselectAll(internatinalSelect)" style="margin-left: 10px">
+                                Clear All
+                            </button>
+                        </mat-option>
+
+                        <mat-option *ngFor="let searchCol of searchInternationalCollectionName" [value]="searchCol.id">
+                            <div fxLayout="row" fxLayoutAlign="space-between center">
+                            <span>   {{ searchCol.name }}</span>
+                            </div>
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+
+
+            </mat-expansion-panel>
+
+
+        </mat-accordion>
+
+    </mat-sidenav>
+    <mat-sidenav-content class="all-products" ngClass.gt-sm="p-left">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
+             class="filter-row mat-elevation-z1 text-muted" style="color: #303030 !important;">
+                                             <span fxHide="false" fxHide.gt-sm>
+                                            <button mat-icon-button (click)="sidenav.toggle()" class="filter-button">
+                                                <mat-icon>filter_list</mat-icon> Filters
+                                            </button>
+                                             </span>
+
+            <div>
+            </div>
+        </div>
+
+        <div fxLayout="column" fxLayout.gt-sm="row" *ngIf="results.length>0">
+            <div fxFlex="70" class=" custom-pagination">
+                <div *ngIf="suggestedWords.length>0" class="suggested-words">
+                                                   <span style="font-size: 16px;font-weight: bolder;margin-left: 30px"> Did you mean:
+                                                        <a mat-raised-button *ngFor="let tag of suggestedWords"
+                                                           [routerLink]="['/search',tag, categoryId]">
+                                                            <mat-icon>search</mat-icon>
+                                                            {{tag}}
+                                                        </a></span>
+                </div>
+            </div>
+            <div class="custom-pagination" fxFlex="30">
+                <pagination-template #pT="paginationApi"
+                                     class="steps-indicator responsive"
+                                     (pageChange)="onPageChanged($event);"
+                                     autoHide="true">
+
+                    <div class="pagination-previous" (click)="pT.previous()" *ngIf="!pT.isFirstPage()"><</div>
+                    <div class="pagination-previous" [class.disabled]="pT.isFirstPage()" *ngIf="pT.isFirstPage()"><
+                    </div>
+
+                    <div class="page current-page">
+                        <span>{{ pT.getCurrent() }}</span>
+                    </div>
+
+                    <div class="pagination-next" (click)="pT.next()" *ngIf="!pT.isLastPage()">></div>
+                    <div class="pagination-next" [class.disabled]="pT.isLastPage()" *ngIf="pT.isLastPage()">></div>
+
+                    <div class="page">Of {{pT.getLastPage()}}</div>
+                </pagination-template>
+            </div>
+
+        </div>
+        <div *ngIf="viewType == 'grid'" fxLayout="row wrap" class="products-wrapper">
+
+            <mat-chip-list *ngIf="exist==true && total==0" class="center">
+                <mat-chip selected="true">Loading...</mat-chip>
+            </mat-chip-list>
+
+            <div class="flexbin flexbin-margin" [class.flexbin-smaller]="nav.viewType" *ngIf="exist==true">
+                <!--<div class="flexbin-smaller flexbin-margin" *ngIf="nav.viewType==4">-->
+
+                <div *ngFor="let product of results | paginate: { itemsPerPage: count, currentPage: page, totalItems: total}"
+                     class="product-item">
+                    <a target="_blank"
+                       [routerLink]="['/detail', product.collection, product.collection == '93' ? product.filename : product.id, '']"
+                       [queryParams]="{category: product.category}">
+                        <img [lazyLoad]="product.thumbnail" [errorImage]="imageToShowOnError"
+                             *ngIf="(product.collection=='93' || product.collection=='179' || product.collection=='210' || product.collection=='211')">
+
+                        <img [lazyLoad]="product.preview" [errorImage]="imageToShowOnError"
+                             *ngIf="!(product.collection=='93' || product.collection=='179' || product.collection=='210'  || product.collection=='211')"/>
+                    </a>
+                    <div class="icons" style="position: absolute;top: 0">
+                        <app-controls [product]="product"
+                                      (onOpenProductDialog)="openProductDialog(product)"></app-controls>
+                    </div>
+                    <div style="position: absolute;bottom: 0; padding: 10px">
+                        <div class="title text-truncate">
+                            <h5 class="category text-muted"
+                                *ngIf="this.appService.displayCollectionName==1">{{ (appService.Data.categories | filterById :
+                                product.collection)?.name }}</h5>
+                            <span *ngIf="product.collection==93">{{product.id}}</span>
+                            <span *ngIf="product.collection!=93">{{getFileName(product.filename)}}</span>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div fxLayout="row" fxFlexFill fxLayoutAlign="space-between center"
+                 *ngIf="exist==false">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                     class="theme-container">
+                    <div *ngIf="suggestedWords.length>0" class="suggested-words p-2 text-center">
+                  <span style="font-size: 18px; font-weight: bolder;"> Did you mean:<br/><br/>
+                        <a mat-raised-button *ngFor="let tag of suggestedWords"
+                           [routerLink]="['/search',tag, categoryId]">
+                            <mat-icon>search</mat-icon>
+                            {{tag}}
+                        </a></span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div fxLayout="row" fxFlexFill="" fxLayoutAlign="space-between center"
+                 class="mt-3" *ngIf="exist==false">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                     class="theme-container">
+                    <img src="../../../assets/images/notfound.png" width="300">
+                </div>
+
+            </div>
+            <div fxLayout="row" fxFlexFill fxLayoutAlign="space-between center"
+                 *ngIf="exist==false">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                     class="theme-container">
+                    <h1 class="mt-2" style="text-align: center">We are Sorry :(<br/>
+                        <span style="font-size: 16px;">No result matching your keyword,
+                        <br/>Please reenter the keyword and pick from suggestions.. </span>
+                    </h1>
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div fxLayout="row wrap" *ngIf="results.length>0">
+            <div fxFlex="100">
+                <div class="text-center custom-pagination">
+                    <pagination-template #pT="paginationApi"
+                                         class="steps-indicator responsive"
+                                         (pageChange)="onPageChanged($event);"
+                                         autoHide="true" style="justify-content: center !important;">
+
+                        <div class="pagination-previous" (click)="pT.previous()" *ngIf="!pT.isFirstPage()"><</div>
+                        <div class="pagination-previous" [class.disabled]="pT.isFirstPage()" *ngIf="pT.isFirstPage()">
+                            <
+                        </div>
+
+                        <div class="page current-page">
+                            <span>{{ pT.getCurrent() }}</span>
+                        </div>
+
+                        <div class="pagination-next" (click)="pT.next()" *ngIf="!pT.isLastPage()">></div>
+                        <div class="pagination-next" [class.disabled]="pT.isLastPage()" *ngIf="pT.isLastPage()">></div>
+
+                        <div class="page">Of {{pT.getLastPage()}}</div>
+                    </pagination-template>
+                </div>
+
+            </div>
+        </div>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

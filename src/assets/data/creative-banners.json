@@ -1,0 +1,12 @@
+[
+    { "title": "Celebration", "subtitle": "", "image": "assets/images/home/Celebration.jpg","keyword": "celebration" },
+    { "title": "Festival And Culture", "subtitle": "", "image": "assets/images/home/festival&culture.jpg","keyword": "festival and culture" },
+    { "title": "Business", "subtitle": "", "image": "assets/images/home/Business.jpg" ,"keyword": "business"},
+    { "title": "Food", "subtitle": "", "image": "assets/images/home/food.jpg","keyword": "food" },
+    { "title": "Texture And Background", "subtitle": "", "image": "assets/images/home/TextureandBackground.jpg","keyword": "texture and background" },
+    { "title": "Vector", "subtitle": "", "image": "assets/images/home/Vector.jpg" ,"keyword": "vector"},
+    { "title": "People", "subtitle": "", "image": "assets/images/home/People.jpg","keyword": "people" },
+    { "title": "Mask - The New Normal", "subtitle": "", "image": "assets/images/home/Sports.jpg","keyword": "Mask is the new normal" },
+    { "title": "Travel", "subtitle": "", "image": "assets/images/home/Travel.jpg" ,"keyword": "travel"},
+    { "title": "Nature And Wildlife", "subtitle": "", "image": "assets/images/home/Wildlife.jpg","keyword": "nature and wildlife" }
+]

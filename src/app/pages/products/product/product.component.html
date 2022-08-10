@@ -1,0 +1,256 @@
+<div fxLayout="row wrap" style="padding-top: 30px">
+
+    <div fxFlex="100" fxFlex.gt-md="50" fxFlex.md="45" style="margin-bottom: 30px;">
+
+        <mat-card class="product-image" fxLayoutAlign="space-between center" fxFlexFill>
+          <img *ngIf="image"  [src]="image"  (click)="openZoomViewer()"/>
+        </mat-card>
+        <button mat-raised-button color="accent" (click)="compDownload()"
+                *ngIf="currentUser && currentUser.customers_comp_status=='1' && images?.collection!=179">Comp Download</button>
+    </div>
+    <div fxFlex="100" fxFlex.gt-md="50" fxFlex.md="55" ngClass.gt-sm="px-3 m-0" ngClass.sm="mt-2" ngClass.xs="mt-2">
+
+        <div #zoomViewer fxShow="false" fxShow.gt-md>
+            <mat-card *ngIf="zoomImage" class="zoom-viewer mat-elevation-z18" [ngStyle]="{'background-image': 'url(' + zoomImage + ')'}"></mat-card>
+        </div>
+
+        <h2 style="overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  ">{{images?.caption}}</h2>
+        <!--<div style="padding-top: 10px">-->
+        <!--<p><span class="text-muted fw-500">Category: &nbsp;</span><span>{{ ( appService.Data.categories | filterById : images?.collection )?.name }}</span>-->
+            <!--<span class="text-muted fw-500 pl-3">License Type:&nbsp; </span><span>{{images?.license }}</span>-->
+        <!--</p></div>-->
+        <div class="divider mt-1"></div>
+        <div class="py-2">
+
+            <mat-table class="size-table mat-elevation-z8" [dataSource]="images?.sizes">
+
+                <ng-container matColumnDef="name">
+                    <div class="description-cell head-cell" *matHeaderCellDef style="text-align: left">Name</div>
+                    <div class="description-cell"  *matCellDef="let element; let i = index">
+                        <mat-radio-group name="sizeList" fxLayout="column" (change)="changeSize(images?.sizes[i])">
+                            <mat-radio-button color="primary" name="sizeList" value="{{element.name}}"
+                                              [checked]="i==(images.sizes.length-1) ? true:false">{{element.name}}</mat-radio-button>
+                        </mat-radio-group></div>
+                </ng-container>
+
+                <ng-container matColumnDef="pixels">
+                    <div class="description-cell head-cell" *matHeaderCellDef>Resolution</div>
+                    <div class="description-cell"
+                         *matCellDef="let element">
+                        <span *ngIf="element.name!='Vector'">
+                            {{element.pixels}} px <br/> <span class="small"> ({{element.inches}} in)</span> </span>
+                    <span *ngIf="element.name=='Vector'">
+                        Scalable to any size  </span></div>
+                </ng-container>
+                <ng-container matColumnDef="size" *ngIf="images?.collection!=210">
+                    <div class="description-cell head-cell"  *matHeaderCellDef>File Size</div>
+                    <div class="description-cell"
+                         *matCellDef="let element"><span *ngIf="(element.collection==93 || element.collection==211 || element.collection==179 || element.collection==130)">
+                        {{element.size}}&nbsp;{{element.unit}}</span><br/>
+                        <span class="small" *ngIf="element.dpi && element.name!='Vector'"> ({{element.dpi}})</span> </div>
+
+                </ng-container>
+
+                <ng-container matColumnDef="size" *ngIf="images?.collection==210">
+                    <div class="description-cell head-cell" *matHeaderCellDef>File Size</div>
+                    <div class="description-cell"
+                         *matCellDef="let element">{{element.dpi}}</div>
+
+                </ng-container>
+
+                <ng-container matColumnDef="collection" *ngIf="images?.collection!=93 && images?.collection!=211">
+                    <div class="description-cell head-cell" *matHeaderCellDef>Price</div>
+                    <div class="description-cell"  *matCellDef="let element; let i=index">
+                        <!--{{element?.name}}</div>-->
+                       Rs.  {{(( appService.Data.categories | filterById : images?.collection )?.creativePrice)[element?.name]}} /- </div>
+
+                </ng-container>
+                <ng-container matColumnDef="collection" *ngIf="(images?.collection==93 || images?.collection==211) && images?.license=='RF (Royalty Free)'">
+                    <div class="description-cell head-cell" *matHeaderCellDef>Price</div>
+                    <div class="description-cell"  *matCellDef="let element; let i=index">
+                        Rs.  {{element?.price}}</div>
+
+                    </ng-container>
+                <ng-container matColumnDef="collection" *ngIf="images?.collection==93 && images?.license!='RF (Royalty Free)'">
+                    <div class="description-cell head-cell" *matHeaderCellDef>Price</div>
+                    <div class="description-cell"  *matCellDef="let element; let i=index">
+                        -</div>
+                </ng-container>
+
+                <mat-row mat-header-row *matHeaderRowDef="['name','pixels', 'size','collection']" style="border-bottom: 1px solid #7a7a7a; margin-bottom:10px"></mat-row>
+
+                <mat-row *matRowDef="let row; columns: ['name','pixels', 'size','collection']"></mat-row>
+
+            </mat-table>
+
+        </div>
+
+        <div class="divider"></div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted py-1">
+
+            <button mat-raised-button color="accent" (click)="addToCart()" *ngIf="btn==0 && images?.collection!=93"><mat-icon>shopping_cart</mat-icon> Add To Cart</button>
+            <button mat-raised-button color="accent" (click)="addToCart()" *ngIf="btn==0 && images?.collection==93 && images?.license=='RF (Royalty Free)'"><mat-icon>shopping_cart</mat-icon> Add To Cart</button>
+            <button mat-raised-button color="accent" disabled="true" *ngIf="images?.collection==93 && images?.license!='RF (Royalty Free)'" style="opacity: 0.4"><mat-icon>shopping_cart</mat-icon> Add To Cart</button>
+            <button mat-raised-button color="accent" disabled="{{disableBtn}}" (click)="download(true)" *ngIf="btn==1"><mat-icon>shopping_cart</mat-icon> Download</button>
+            <button mat-raised-button color="accent" (click)="reDownloadImage(images?.id, cartProduct?.size)" *ngIf="btn==2"><mat-icon>shopping_cart</mat-icon> Re-Download </button>
+
+            <app-controls [product]="wish" [type]="'all'"></app-controls>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted py-1" *ngIf="images?.collection==93 && images?.license!='RF (Royalty Free)'">
+            <h3 *ngIf="btn==0">To buy this image please contact us on 8882559559</h3>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted py-1">
+            <h3 *ngIf="btn==2">Missed the download? Contact our customer support at 8882559559</h3>
+        </div>
+    </div>
+</div>
+
+<div fxLayout="row wrap" class="mt-2">
+    <div fxFlex="100" fxFlex.gt-md="72" fxFlex.md="68">
+        <!--<mat-card> -->
+            <mat-tab-group [@.disabled]="true" [selectedIndex]="0">
+                <mat-tab label="Additional Information Of Image" class="description">
+                    <div class="full-desc lh">
+                        <div fxLayout="row wrap" class="mt-2">
+                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">
+                                <span class="title">Image Id: </span>
+                            </div>
+                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">
+                                {{images?.filename}}
+                            </div>
+                        </div>
+                        <!--<div fxLayout="row wrap" class="mt-1">-->
+                            <!--<div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">-->
+                                <!--<span class="title">Image Name: </span>-->
+                            <!--</div>-->
+                            <!--<div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">-->
+                                <!--{{images?.filename}}-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div fxLayout="row wrap" class="mt-1">
+                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">
+                                <span class="title">Title: </span>
+                            </div>
+                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">
+                                {{images?.caption}}
+                            </div>
+                        </div>
+
+                        <div fxLayout="row wrap" class="mt-1" *ngIf="images?.desc">
+                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">
+                                <span class="title">Description: </span>
+                            </div>
+                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">
+                                {{images?.desc}}
+                            </div>
+                        </div>
+
+                        <div fxLayout="row wrap" class="mt-1">
+                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">
+                                <span class="title">License Type: </span>
+                            </div>
+                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">
+                                {{images?.license}}
+                            </div>
+                        </div>
+
+                        <div fxLayout="row wrap" class="mt-1">
+                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">
+                                <span class="title">Collection: </span>
+                            </div>
+                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">
+                                {{ ( appService.Data.categories | filterById : images?.collection )?.name }}
+                            </div>
+                        </div>
+
+                        <div fxLayout="row wrap" class="mt-1">
+                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">
+                                <span class="title">Copyright ©: </span>
+                            </div>
+                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">
+<!--                                <a style="color: #ffffff;" [routerLink]="['/contributor',images?.collection, code, 'image', categoryId]" target="_blank">{{images?.author}}</a>-->
+                                {{images?.author}}
+                        </div>
+                        </div>
+                        <div fxLayout="row wrap" class="mt-1" *ngIf="usage==true">
+                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">
+                                <span class="title">Usage</span>
+                            </div>
+                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">
+                                Editorial image only
+                            </div>
+                        </div>
+                        <div fxLayout="row wrap" class="mt-1">
+                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">
+                                <span class="title">Model Released: </span>
+                            </div>
+                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">
+                                {{images?.collection== '197' || images?.collection=='21' ? 'Yes' : images?.model}}
+                            </div>
+                        </div>
+                        <div fxLayout="row wrap" class="mt-1">
+                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">
+                                <span class="title">Property Released: </span>
+                            </div>
+                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">
+                                {{images?.collection== '197' || images?.collection=='21' ? 'Yes' : images?.property}}
+                            </div>
+                        </div>
+
+                        <div fxLayout="row wrap" class="mt-1" *ngIf="images?.collection!= '197' && images?.collection!='21'">
+                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">
+                                <span class="title">Restrictions: </span>
+                            </div>
+                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">
+                                {{images?.restrictions}}
+                            </div>
+                        </div>
+                                 </div>
+                </mat-tab>
+
+            </mat-tab-group>
+        <!--</mat-card>-->
+    </div>
+    <!--<div fxFlex="100" fxFlex.gt-md="28" fxFlex.md="32" ngClass.gt-sm="pl-3" fxHide fxShow.gt-sm>-->
+
+    <!--</div>-->
+</div>
+<div class="py-2 mt-2">
+    <h2>Usage Right</h2>
+    <div class="divider"></div>
+    <div fxLayout="row wrap" fxLayoutAlign="center center" class="mt-2" style="margin: 30px; font-size: 16px;">
+        We invite you to access our website and use our services, download and use of any content (images/footages) is subject to your agreement with us.
+        Usage of content (images/footages) without authorization and valid licensing is strictly prohibited and violates our user license agreement.
+    </div>
+</div>
+<div class="py-2 mt-2">
+    <h2>Related Keyword</h2>
+    <div class="divider"></div>
+            <div fxLayout="row wrap" fxLayoutAlign="center center" class="mt-2 filter-brands" style="margin: 30px;">
+                <div *ngIf="!(images?.tags.length==1 && images?.tags[0]=='No Tags Available')">
+                    <a mat-raised-button *ngFor="let tag of images?.tags" [routerLink]="['/search',tag, categoryId]">
+                        {{tag}}
+                    </a>
+                </div>
+                <div *ngIf="(images?.tags.length==1 && images?.tags[0]=='No Tags Available')">
+                    No Tags Available
+                </div>
+            </div>
+</div>
+
+<div class="py-2 mt-2">
+    <h2>Similiar Images</h2>
+    <div class="divider"></div>
+       <div *ngIf="isfetch && (relatedProducts | relateProductPipe : images?.collection==93 ? images?.filename.replace('ALMY_', ''):images?.id).length >0">
+           <app-products-carousel [results]="relatedProducts | relateProductPipe : images?.collection==93 ? images?.filename.replace('ALMY_', ''):images?.id"></app-products-carousel></div>
+    <mat-chip-list *ngIf="!isfetch">
+        <br/><br/>  <mat-chip  selected="true">Loading...</mat-chip>
+    </mat-chip-list>
+    <div *ngIf="isfetch && (relatedProducts | relateProductPipe : images?.collection==93 ? images?.filename.replace('ALMY_', ''):images?.id).length<=0"><h4 class="mt-2">No Related Images Found</h4></div>
+</div>
+
+

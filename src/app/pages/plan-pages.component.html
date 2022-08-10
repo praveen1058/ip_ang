@@ -1,0 +1,81 @@
+<mat-sidenav-container>
+
+    <mat-sidenav [opened]="false" mode="over" #sidenav class="sidenav mat-elevation-z6">
+        <button mat-icon-button color="warn" class="close" (click)="sidenav.close()">
+            <mat-icon color="warn">close</mat-icon>
+        </button>
+        <div class="divider"></div>
+        <app-sidenav-menu [menuItems]="sidenavMenuItems" [menuParentId]="0"></app-sidenav-menu>
+        <div class="divider"></div>
+        <div class="text-center py-2">
+            <a href="https://www.facebook.com/Ibudgetphoto" target="_blank">
+                <img src="../../../../assets/images/fb.jpg" width="36" matTooltip="Facebook" style="width:36px;border-radius:50px;margin-right: 10px"/>
+            </a>
+            <a href="https://www.instagram.com/_indiapicture/" target="_blank">
+                <img src="../../../../assets/images/insta.jpg" width="36" matTooltip="Instagram" style="width:36px;border-radius:50px;margin-right: 10px"/>
+            </a>
+            <a href="https://www.linkedin.com/in/indiapicture/" target="_blank">
+                <img src="../../../../assets/images/link.jpg" width="36" matTooltip="Linkdein" style="width:36px;border-radius:50px;"/>
+            </a>
+        </div>
+    </mat-sidenav>
+
+
+    <mat-toolbar color="primary" class="logo-toolbar-main">
+        <mat-toolbar-row fxLayoutAlign="space-between center" class="top-toolbar theme-container">
+            <span fxHide="false" fxHide.gt-sm>
+                <button mat-button (click)="sidenav.toggle()" class="sidenav-toggle">
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </span>
+            <span><a class="logo" routerLink="/" ><img [src]="[settings.logo]" style="max-width: 200px;margin-top: 20px;"/></a></span>
+            <app-plan-menu fxShow="false" fxShow.gt-sm></app-plan-menu>
+            <app-top-menu></app-top-menu>
+        </mat-toolbar-row>
+
+<!--        <mat-toolbar-row fxLayoutAlign="space-between center" class="logo-toolbar theme-container" id="logo-toolbar">-->
+
+<!--        <div fxFlex="100" fxHide="false" fxHide.gt-sm>-->
+<!--            <a class="logo" routerLink="/home" (click)="closeSubMenus()"><img [src]="[settings.logo]" style="max-width: 100%;"/></a>-->
+<!--        </div>-->
+
+<!--    </mat-toolbar-row>-->
+    </mat-toolbar>
+
+
+<!--    <mat-toolbar color="primary" class="logo-toolbar-main">-->
+<!--        <span fxHide="false" fxHide.gt-sm>-->
+<!--                <button mat-button (click)="sidenav.toggle()" class="sidenav-toggle">-->
+<!--                    <mat-icon>menu</mat-icon>-->
+<!--                </button>-->
+<!--            </span>-->
+<!--        <mat-toolbar-row fxLayoutAlign="space-between center" class="top-toolbar theme-container">-->
+<!--            <span fxShow="false" fxShow.gt-sm><a class="logo" routerLink="/" ><img [src]="[settings.logo]" style="max-width: 100%;margin-top: 20px;"/></a></span>-->
+<!--            <app-premium-menu fxShow="false" fxShow.gt-sm></app-premium-menu>-->
+<!--            <app-top-menu></app-top-menu>-->
+<!--        </mat-toolbar-row>-->
+
+
+<!--    </mat-toolbar>-->
+
+
+
+
+
+    <div class="theme-container main">
+        <!--<app-breadcrumb></app-breadcrumb>-->
+        <router-outlet></router-outlet>
+    </div>
+
+
+    <app-options></app-options>
+
+    <app-footer></app-footer>
+
+    <div *ngIf="showBackToTop" fxLayout="row" fxLayoutAlign="center center" class="back-to-top transition"
+         (click)="scrollToTop()">
+        <mat-icon>arrow_upward</mat-icon>
+    </div>
+
+
+</mat-sidenav-container>

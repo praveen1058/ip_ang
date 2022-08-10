@@ -1,0 +1,12 @@
+.content-container{
+  padding: 10px 60px 50px 60px;
+}
+li{
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 425px) {
+  .content-container{
+    padding: 10px 10px 50px 10px;
+  }
+}

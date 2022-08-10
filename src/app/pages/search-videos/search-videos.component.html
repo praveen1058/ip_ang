@@ -1,0 +1,334 @@
+
+<mat-sidenav-container>
+    <mat-sidenav #sidenav [opened]="false" [mode]="sidenavOpen ? 'side' : 'over'" class="filter-sidenav"
+                 perfectScrollbar>
+
+        <mat-accordion displayMode="flat" multi="true">
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>Applied Filters</h4>  <a class="pl-3" style="text-decoration: underline;"
+                                                     (click)="clearAll()">
+                        Clear all
+                    </a>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div fxLayout="row wrap" fxLayoutAlign="column" class="filter-brands">
+                    <mat-chip-list aria-label="Filter selection">
+                        <mat-chip color="accent" selected *ngIf="filter.resolution.includes('HD')" (click)="removeResolution('resolution','HD')">HD<mat-icon>cancel</mat-icon></mat-chip>
+                        <mat-chip color="accent" selected *ngIf="filter.resolution.includes('4K')" (click)="removeResolution('resolution','4K')">4K<mat-icon>cancel</mat-icon></mat-chip>
+                        <mat-chip color="accent" selected *ngIf="filter.people"  (click)="removeFilter('people')">{{getName('people')}}<mat-icon>cancel</mat-icon></mat-chip>
+                        <mat-chip color="accent" selected *ngIf="filter.gender"  (click)="removeFilter('gender')">{{getName('gender')}}<mat-icon>cancel</mat-icon></mat-chip>
+                        <mat-chip color="accent" selected *ngIf="fpsFrom!=0 || fpsTo!=60"  (click)="removeFilter('fps')">FPS {{fpsFrom}}-  {{fpsTo}}<mat-icon>cancel</mat-icon></mat-chip>
+                        <mat-chip color="accent" selected *ngIf="durationFrom!=0 || durationTo!=120"  (click)="removeFilter('duration')">Duration {{timeString}}-  {{timeStringTo}}<mat-icon>cancel</mat-icon></mat-chip>
+
+                    </mat-chip-list>
+
+
+
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+
+        <mat-accordion displayMode="flat" multi="true">
+            <mat-expansion-panel expanded >
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>Sorting</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div fxLayout="row wrap" fxLayoutAlign="column" class="filter-brands">
+                    <button mat-raised-button *ngFor="let sort of sortings" (click)="sort.selected = !sort.selected;changeSorting()"
+                            [class.selected]="sort.selected" class="sort-btn">
+                        {{sort.name}}
+                    </button>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>Duration</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <ng5-slider
+                        [(value)]="durationFrom"
+                        [(highValue)]="durationTo"
+                        [options]="{
+          floor: 0,
+          ceil: 120,
+          hideLimitLabels: true,
+          hidePointerLabels: true
+        }"
+                        (valueChange)="changeDuration($event,'low')"
+                        (highValueChange)="changeDuration($event,'high')"
+                        (mouseup)="getAllVideos()"
+                ></ng5-slider>
+
+                <div fxLayout="row" fxLayoutAlign="space-between center" class="duration-filter">
+                    <span><b>{{timeString}}</b></span>
+                    <span><b>{{timeStringTo}}</b></span>
+                    <!--<span *ngIf="durationFrom>=10"><b>00:{{durationFrom}}</b></span>-->
+                    <!--<span *ngIf="durationFrom<10"><b>00:0{{durationFrom}}</b></span>-->
+                    <!--<span *ngIf="durationTo<120"><b>01:{{durationTo-60}}</b></span>-->
+                    <!--&lt;!&ndash;<span *ngIf="durationTo<10">To: <b>01:0{{durationTo}}</b></span>&ndash;&gt;-->
+                    <!--<span *ngIf="durationTo==120"><b>02:00</b></span>-->
+
+                </div>
+                <!--<div fxLayout="row" fxLayoutAlign="space-between center" class="filter-price">-->
+                    <!--<mat-slider color="primary" max="59" min="0"  thumb-label="true" [(ngModel)]="durationFrom" onchange="changeDuraion()"></mat-slider>-->
+                    <!--<mat-slider color="warn" max="60" min="0"  thumb-label="true" [(ngModel)]="durationTo" onchange="changeDuraion()"></mat-slider>-->
+                <!--</div>-->
+            </mat-expansion-panel>
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>Gender</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-radio-group name="genderList" fxLayout="column" (change)="changeGender($event)">
+                    <mat-radio-button name="genderList" color="primary"  *ngFor="let gen of gender" [checked]="gen.value == filter.gender" value="{{gen.value}}">{{gen.name}}</mat-radio-button>
+                </mat-radio-group>
+            </mat-expansion-panel>
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>Resolution</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div fxLayout="row wrap" fxLayoutAlign="column" class="filter-brands">
+                    <button mat-raised-button *ngFor="let resolution of resolution_type" (click)="resolution.selected = !resolution.selected;changeResolution()"
+                            [class.selected]="resolution.selected">
+                        {{resolution.name}}
+                    </button>
+                </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>FPS</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <ng5-slider
+                        [(value)]="fpsFrom"
+                        [(highValue)]="fpsTo"
+                        [options]="{
+          floor: 0,
+          ceil: 60,
+          hideLimitLabels: true,
+          hidePointerLabels: true
+        }"
+                        (valueChange)="changeFps($event,'low')"
+                        (highValueChange)="changeFps($event,'high')"
+                        (mouseup)="getAllVideos()"
+                ></ng5-slider>
+
+
+                <div fxLayout="row" fxLayoutAlign="space-between center" class="duration-filter">
+                    <span>From: <b>{{fpsFrom}}</b></span>
+                    <span>To: <b>{{fpsTo}}</b></span>
+
+                </div>
+                <!--<div fxLayout="row" fxLayoutAlign="space-between center" class="filter-price">-->
+                    <!--<mat-slider color="primary" max="25" min="0"  thumb-label="true" [(ngModel)]="fpsFrom" onchange="changeDuraion()"></mat-slider>-->
+                    <!--<mat-slider color="warn" max="60" min="25"  thumb-label="true" [(ngModel)]="fpsTo" onchange="changeDuraion()"></mat-slider>-->
+                <!--</div>-->
+            </mat-expansion-panel>
+
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>People</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-radio-group name="peopleList" fxLayout="column" (change)="changePeople($event)">
+                    <mat-radio-button color="primary" name="peopleList"  *ngFor="let people of peoples" [checked]="people.value == filter.people" value="{{people.value}}">{{people.name}}</mat-radio-button>
+                </mat-radio-group>
+            </mat-expansion-panel>
+
+<!--            <mat-expansion-panel expanded>-->
+<!--                <mat-expansion-panel-header>-->
+<!--                    <mat-panel-title>-->
+<!--                        <h4>Price</h4>-->
+<!--                    </mat-panel-title>-->
+<!--                </mat-expansion-panel-header>-->
+<!--                <ng5-slider-->
+<!--                        [(value)]="priceFrom"-->
+<!--                        [(highValue)]="priceTo"-->
+<!--                        [options]="{-->
+<!--          floor: 0,-->
+<!--          ceil: 1000,-->
+<!--          hideLimitLabels: true,-->
+<!--          hidePointerLabels: true-->
+<!--        }"-->
+<!--                        (valueChange)="changePrice($event,'low')"-->
+<!--                        (highValueChange)="changePrice($event,'high')"-->
+<!--                        (mouseup)="getAllVideos()"-->
+<!--                ></ng5-slider>-->
+
+
+<!--                <div fxLayout="row" fxLayoutAlign="space-between center" class="duration-filter">-->
+<!--                    <span>From: <b>{{priceFrom}}</b></span>-->
+<!--                    <span>To: <b>{{priceTo}}</b></span>-->
+
+<!--                </div>-->
+<!--            </mat-expansion-panel>-->
+        </mat-accordion>
+
+    </mat-sidenav>
+    <mat-sidenav-content class="all-products" ngClass.gt-sm="p-left">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
+             class="filter-row mat-elevation-z1 text-muted" style="color: #303030 !important;">
+             <span fxHide="false" fxHide.gt-sm>
+            <button  mat-icon-button (click)="sidenav.toggle()" class="filter-button">
+                <mat-icon>filter_list</mat-icon> Filters
+            </button>
+             </span>
+
+            <div>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap" *ngIf="results.length>0">
+            <div fxFlex="70" class=" custom-pagination">
+                <div *ngIf="suggestedWords.length>1" class="suggested-words">
+                   <span style="font-size: 16px;font-weight: bolder;margin-left: 30px"> Did you mean:
+                        <a mat-raised-button *ngFor="let tag of suggestedWords" [routerLink]="['/search',tag, categoryId]">
+                            <mat-icon>search</mat-icon> {{tag}}
+                        </a></span>
+                </div>
+            </div>
+            <div class="custom-pagination"  fxFlex="30">
+                    <pagination-template #pT="paginationApi"
+                                         class="steps-indicator responsive"
+                                         (pageChange)="onPageChanged($event);"
+                                         autoHide="true">
+
+                        <div class="pagination-previous" (click)="pT.previous()" *ngIf="!pT.isFirstPage()"><</div>
+                        <div class="pagination-previous" [class.disabled]="pT.isFirstPage()" *ngIf="pT.isFirstPage()"><</div>
+
+                        <div class="page current-page">
+                            <span>{{ pT.getCurrent() }}</span>
+                        </div>
+
+                        <div class="pagination-next" (click)="pT.next()" *ngIf="!pT.isLastPage()">></div>
+                        <div class="pagination-next" [class.disabled]="pT.isLastPage()" *ngIf="pT.isLastPage()">></div>
+
+                        <div class="page">Of {{pT.getLastPage()}}</div>
+                    </pagination-template>
+                </div>
+        </div>
+
+        <div *ngIf="viewType == 'grid'" fxLayout="row wrap" class="products-wrapper">
+
+            <mat-chip-list *ngIf="exist==true && total==0" class="center">
+                <mat-chip  selected="true">Loading...</mat-chip>
+            </mat-chip-list>
+
+            <div class="flexbin flexbin-margin" [class.flexbin-smaller]="nav.viewType">
+                <div *ngFor="let product of results | paginate: { itemsPerPage: count, currentPage: page, totalItems: total}; let i=index" class="product-item" (mouseenter)="hover(i)">
+                    <a target="_blank"
+                       [routerLink]="['/video-detail', product.collection, product.id, '']"
+                       [queryParams]="{category: product.category}">
+                        <video oncontextmenu="return false;" *ngIf="product.isHover"  onmouseenter="this.play();"
+                               onmouseout="this.pause()"
+                               src="{{product.preview}}"
+                                poster="{{product.thumbnail}}"  muted="muted"> </video>
+
+                        <img [lazyLoad]="product.thumbnail" *ngIf="!product.isHover"
+                             [useSrcset]="true">
+
+                        <!--<img src="{{product.thumbnail}}" *ngIf="product.id!=isHovering">-->
+                    </a>
+
+                    <div class="icons" style="position: absolute;top: 0">
+                        <app-controls [product]="product"
+                                      (onOpenProductDialog)="openDialog(product)"></app-controls>
+                    </div>
+                    <div style="position: absolute; bottom: 0; padding: 5px">
+                    <div class="title text-truncate">
+                        {{product.max_size}} &nbsp;{{product.time}}
+                        <!--{{product.isHover}}-->
+                    </div>
+                    </div>
+                    <div style="position: absolute; bottom: 0;right: 0; padding: 5px">
+                        <div class="title text-truncate">
+                            {{product.author}}
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div fxLayout="row" fxFlexFill fxLayoutAlign="space-between center"
+                 *ngIf="exist==false">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                     class="theme-container">
+                    <div *ngIf="suggestedWords.length>0" class="suggested-words p-2 text-center">
+                   <span style="font-size: 18px; font-weight: bolder;">Did you mean:<br/><br/>
+                        <a mat-raised-button *ngFor="let tag of suggestedWords" [routerLink]="['/search',tag, categoryId]">
+                            <mat-icon>search</mat-icon> {{tag}}
+                        </a></span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div fxLayout="row" fxFlexFill="" fxLayoutAlign="space-between center"
+                 class="mt-3" *ngIf="exist==false">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                     class="theme-container">
+                    <img src="../../../assets/images/notfound.png" width="300">
+                </div>
+
+            </div>
+            <div fxLayout="row" fxFlexFill fxLayoutAlign="space-between center"
+                 *ngIf="exist==false">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                     class="theme-container">
+                    <h1 class="mt-2" style="text-align: center">We are Sorry :(<br/>
+                        <span style="font-size: 16px;">No result matching your keyword,
+                        <br/>Please reenter the keyword and try again.. </span>
+                    </h1>
+
+                </div>
+            </div>
+
+        </div>
+        <!--<div *ngIf="results.length > 0" fxLayout="row wrap">-->
+            <!--<div fxFlex="100">-->
+                <!--<mat-card class="p-0 text-center">-->
+                    <!--<pagination-controls class="product-pagination" autoHide="true" maxSize="5"-->
+                                         <!--(pageChange)="onPageChanged($event)"></pagination-controls>-->
+                <!--</mat-card>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div fxLayout="row wrap" *ngIf="results.length>0">
+            <div fxFlex="100">
+                <div class="text-center custom-pagination" >
+                    <pagination-template #pT="paginationApi"
+                                         class="steps-indicator responsive"
+                                         (pageChange)="onPageChanged($event);"
+                                         autoHide="true">
+
+                        <div class="pagination-previous" (click)="pT.previous()" *ngIf="!pT.isFirstPage()"><</div>
+                        <div class="pagination-previous" [class.disabled]="pT.isFirstPage()" *ngIf="pT.isFirstPage()"><</div>
+
+                        <div class="page current-page">
+                            <span>{{ pT.getCurrent() }}</span>
+                        </div>
+
+                        <div class="pagination-next" (click)="pT.next()" *ngIf="!pT.isLastPage()">></div>
+                        <div class="pagination-next" [class.disabled]="pT.isLastPage()" *ngIf="pT.isLastPage()">></div>
+
+                        <div class="page">Of {{pT.getLastPage()}}</div>
+                    </pagination-template>
+                </div>
+
+            </div>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

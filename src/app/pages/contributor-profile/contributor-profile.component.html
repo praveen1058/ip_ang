@@ -1,0 +1,225 @@
+<div class="full-width">
+    <div fxLayout="row" class="mt-2 " ngClass.gt-sm="pl-3">
+        <div fxFlex="20" fxFlex.gt-sm="12">
+            <div style="border-radius: 50%; background: #ffffff;display:table-cell; vertical-align:middle; text-align:center"
+                 [ngStyle.gt-sm]="{'width': '130px', 'height': '130px'}"
+                 [ngStyle]="{'width': '130px' , 'height': '130px'}"
+                 [ngStyle.lt-sm]="{'width': '50px', 'height': '50px'}">
+                <img style="border-radius: 50%; background-color: white"
+                     [ngStyle.gt-sm]="{'width': '120px' }"
+                     [ngStyle]="{'width': '120px'}"
+                     [ngStyle.lt-sm]="{'width': '40px', 'margin-left': '10px'}"
+                     src="{{(contributorData?.photograph=='' || contributorData?.photograph=='null' || contributorData?.photograph==null)
+                     ? placeholder: 'https://static.mahatta.com/200x200/submission/'+contributorData?.photograph}}"/>
+            </div>
+        </div>
+        <div fxFlex="85" ngClass.gt-sm="mt-1">
+            <div fxLayout="row">
+                <div fxFlex="100"><h1>{{contributorData?.firstname}} {{contributorData?.lastname}}</h1>
+                    <p>{{contributorData?.interest}}</p>
+                    <mat-divider class="mt-1"></mat-divider>
+                </div>
+            </div>
+            <div fxLayout="row" class="mt-1">
+                <div fxFlex="100">
+                    <div fxFlex="10" class="mt-1" fxHide fxShow.gt-sm>
+                        <button mt-2 mat-raised-button class="btn-sign">Share On</button>&nbsp;&nbsp; |
+                    </div>
+                    <div fxFlex="90">
+                        <share-buttons [theme]="'circles-dark'"
+                                       [include]="['facebook','twitter','linkedin','email','copy']"
+                                       [show]="5"
+                                       [size]="0.2"
+                                       [url]="'https://indiapicture.in/contributor/'+code"
+                                       [autoSetMeta]="false"
+                        ></share-buttons>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <mat-tab-group class="mt-2">
+        <mat-tab label="{{this.type == 'video' ? 'Videos' : 'Images'}}" >
+            <div fxLayout="row" fxLayoutAlign="start center" class="p-2" *ngIf="code=='INPIX'">
+                <div fxFlex="90" fxFlex.gt-sm="50">
+                    <a (click)="changeContributorImageType('ALL')" [ngClass]="(contributor_image_type== '' || contributor_image_type== 'ALL' )? 'mat-primary': 'mat-accent'"
+                       mat-raised-button  class="text-center" style=" margin-right: 10px;">
+                        All Images
+                    </a>
+                    <a (click)="changeContributorImageType('RF')" [ngClass]="contributor_image_type== 'RF' ? 'mat-primary': 'mat-accent'"
+                       mat-raised-button  class="text-center" style=" margin-right: 10px;">
+                        RF Images
+                    </a>
+                    <a  (click)="changeContributorImageType('PREMIUM')" [ngClass]="contributor_image_type== 'PREMIUM' ? 'mat-primary': 'mat-accent'"
+                       mat-raised-button class="text-center" style=" margin-right: 10px;">
+                        Premium Image
+                    </a>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center" class="py-2">
+                <div fxFlex="90" fxFlex.gt-sm="50">
+                    <form [formGroup]="searchForm" (ngSubmit)="onSubmit(searchForm.value)" fxLayout="row"
+                          class="search-form">
+                        <input type="text" formControlName="searchText"
+                               placeholder="Search world largest collection of Indian images..." fxFlex>
+                        <button type="submit" mat-mini-fab
+                                class="search-btn mat-elevation-z0 text-muted" style="color:#000 !important">
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div fxLayout="column" fxLayout.gt-sm="row" *ngIf="results.length>0">
+                <div fxFlex="70" class=" custom-pagination px-2">
+                    <h2 style="color: rgba(255,255,255,0.9)">Top {{contributor_image_type}}
+                        <span>{{this.type == 'video' ? 'Videos' : 'Images'}}</span></h2>
+                    <p>{{total}} stock photos, vectors, and illustrations are available.</p>
+                </div>
+                <div class="custom-pagination" fxFlex="30">
+                    <pagination-template #pT="paginationApi"
+                                         class="steps-indicator responsive"
+                                         (pageChange)="onPageChanged($event);"
+                                         autoHide="true">
+
+                        <div class="pagination-previous" (click)="pT.previous()" *ngIf="!pT.isFirstPage()"><</div>
+                        <div class="pagination-previous" [class.disabled]="pT.isFirstPage()" *ngIf="pT.isFirstPage()"><
+                        </div>
+
+                        <div class="page current-page">
+                            <span>{{ pT.getCurrent() }}</span>
+                        </div>
+
+                        <div class="pagination-next" (click)="pT.next()" *ngIf="!pT.isLastPage()">></div>
+                        <div class="pagination-next" [class.disabled]="pT.isLastPage()" *ngIf="pT.isLastPage()">></div>
+
+                        <div class="page">Of {{pT.getLastPage()}}</div>
+                    </pagination-template>
+                </div>
+
+            </div>
+            <div *ngIf="viewType == 'grid'" fxLayout="row wrap" class="products-wrapper mt-1"
+                 [ngStyle.gt-sm]="{paddingLeft: '10px;'}">
+
+                <mat-chip-list *ngIf="exist==true && total==0" class="center">
+                    <mat-chip selected="true">Loading...</mat-chip>
+                </mat-chip-list>
+
+                <div class="flexbin flexbin-margin" [class.flexbin-smaller]="nav.viewType" *ngIf="exist==true">
+                    <!--<div class="flexbin-smaller flexbin-margin" *ngIf="nav.viewType==4">-->
+
+                    <div *ngFor="let product of results | paginate: { itemsPerPage: count, currentPage: page, totalItems: total}; let i=index"
+                         class="product-item" (mouseenter)="hover(i)">
+                        <a target="_blank" *ngIf="type=='image'"
+                           [routerLink]="['/detail', product.collection, product.collection == '93' ? product.filename : product.id, product.caption]"
+                           [queryParams]="{category: product.category}">
+                            <img [lazyLoad]="product.thumbnail" [errorImage]="imageToShowOnError"
+                                 *ngIf="(product.collection=='93' || product.collection=='179' || product.collection=='210' || product.collection=='211')">
+
+                            <img [lazyLoad]="product.preview" [errorImage]="imageToShowOnError"
+                                 *ngIf="!(product.collection=='93' || product.collection=='179' || product.collection=='210'  || product.collection=='211')"/>
+                        </a>
+                        <a target="_blank" *ngIf="type=='video'"
+                           [routerLink]="['/video-detail', product.collection, product.id, product.caption]"
+                           [queryParams]="{category: product.category}">
+                            <video oncontextmenu="return false;" *ngIf="product.isHover"  onmouseenter="this.play();"
+                                   onmouseout="this.pause()"
+                                   src="{{product.preview}}"
+                                   poster="{{product.thumbnail}}"  muted="muted"> </video>
+                            <img [lazyLoad]="product.thumbnail" *ngIf="!product.isHover"
+                                 [useSrcset]="true">
+
+                            <!--<img src="{{product.thumbnail}}" *ngIf="product.id!=isHovering">-->
+                        </a>
+                        <div class="icons" style="position: absolute;top: 0">
+                            <app-controls [product]="product"
+                                          (onOpenProductDialog)="openProductDialog(product)"></app-controls>
+                        </div>
+                        <div style="position: absolute;bottom: 0; padding: 10px">
+                            <div class="title text-truncate">
+                                <h5 class="category text-muted"
+                                    *ngIf="this.appService.displayCollectionName==1">{{ (appService.Data.categories | filterById :
+                                    product.collection)?.name }}</h5>
+                                <span *ngIf="product.collection==93">{{product.id}}</span>
+                                <span *ngIf="product.collection!=93">{{getFileName(product.filename)}}</span>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div fxLayout="row" fxFlexFill fxLayoutAlign="space-between center"
+                     *ngIf="exist==false">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                         class="theme-container">
+                        <div *ngIf="suggestedWords.length>0" class="suggested-words p-2 text-center">
+                  <span style="font-size: 18px; font-weight: bolder;"> Did you mean:<br/><br/>
+                        <a mat-raised-button *ngFor="let tag of suggestedWords"
+                           [routerLink]="['/search',tag, categoryId]">
+                            <mat-icon>search</mat-icon>
+                            {{tag}}
+                        </a></span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div fxLayout="row" fxFlexFill="" fxLayoutAlign="space-between center"
+                     class="mt-3" *ngIf="exist==false">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                         class="theme-container">
+                        <img src="../../../assets/images/notfound.png" width="300">
+                    </div>
+
+                </div>
+                <div fxLayout="row" fxFlexFill fxLayoutAlign="space-between center"
+                     *ngIf="exist==false">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                         class="theme-container">
+                        <h1 class="mt-2" style="text-align: center">We are Sorry :(<br/>
+                            <span style="font-size: 16px;">No result matching your keyword,
+                        <br/>Please reenter the keyword and pick from suggestions.. </span>
+                        </h1>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div fxLayout="row wrap" *ngIf="results.length>0">
+                <div fxFlex="100">
+                    <div class="text-center custom-pagination">
+                        <pagination-template #pT="paginationApi"
+                                             class="steps-indicator responsive"
+                                             (pageChange)="onPageChanged($event);"
+                                             autoHide="true" style="justify-content: center !important;">
+
+                            <div class="pagination-previous" (click)="pT.previous()" *ngIf="!pT.isFirstPage()"><</div>
+                            <div class="pagination-previous" [class.disabled]="pT.isFirstPage()"
+                                 *ngIf="pT.isFirstPage()">
+                                <
+                            </div>
+
+                            <div class="page current-page">
+                                <span>{{ pT.getCurrent() }}</span>
+                            </div>
+
+                            <div class="pagination-next" (click)="pT.next()" *ngIf="!pT.isLastPage()">></div>
+                            <div class="pagination-next" [class.disabled]="pT.isLastPage()" *ngIf="pT.isLastPage()">>
+                            </div>
+
+                            <div class="page">Of {{pT.getLastPage()}}</div>
+                        </pagination-template>
+                    </div>
+
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

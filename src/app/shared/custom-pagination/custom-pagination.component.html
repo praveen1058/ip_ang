@@ -1,0 +1,24 @@
+<pagination-template #stepsIndicator="paginationApi"
+                     class="steps-indicator responsive"
+                     [id]="config.id"
+                     [maxSize]="totalSteps"
+                     (pageChange)="config.currentPage = $event">
+
+    <div class="pagination-previous" [class.disabled]="stepsIndicator.isFirstPage()">
+        <a *ngIf="!stepsIndicator.isFirstPage()" (click)="stepsIndicator.previous()"> < </a>
+    </div>
+
+    <div class="page current-page">
+        <span>{{ stepsIndicator.getCurrent() }}</span>
+    </div>
+
+    <div class="pagination-next" [class.disabled]="stepsIndicator.isLastPage()">
+        <a *ngIf="!stepsIndicator.isLastPage()" (click)="stepsIndicator.next()"> > </a>
+    </div>
+
+    <div class="page">
+        Of {{stepsIndicator.pages.length}}
+    </div>
+</pagination-template>
+
+<p class="invisible" *ngFor="let item of counter(totalSteps) | paginate: config"></p>

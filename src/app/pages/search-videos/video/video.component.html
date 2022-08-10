@@ -1,0 +1,248 @@
+<!--<div fxLayout="row wrap" style="padding-top: 30px" *ngIf="images">-->
+<!--<h2># {{images?.filename }}</h2><br/></div>-->
+
+<div fxLayout="row wrap" style="padding-top: 30px">
+
+    <div fxFlex="100" fxFlex.gt-md="60" fxFlex.md="45" style="margin-bottom: 30px;">
+
+        <mat-card class="product-image" fxLayoutAlign="space-between center" fxFlexFill>
+            <!--<img *ngIf="image"  [src]="image"  (click)="openZoomViewer()"/>-->
+            <video oncontextmenu="return false;" autoplay controls loop controlsList="nodownload"
+                   src="{{zoomImage}}" poster="{{image}}"></video>
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted py-1">
+                <button mat-raised-button color="accent" (click)="openDialog(images)">
+                    <mat-icon>search</mat-icon>
+                    Zoom
+                </button>
+
+
+            </div>
+        </mat-card>
+        <button mat-raised-button color="accent" (click)="compDownload()"
+                *ngIf="currentUser && currentUser.customers_comp_status=='1'">Comp Download
+        </button>
+    </div>
+    <div fxFlex="100" fxFlex.gt-md="40" fxFlex.md="55" ngClass.gt-sm="px-3 m-0" ngClass.sm="mt-2" ngClass.xs="mt-2">
+
+        <h2>{{images?.caption}}</h2>
+        <!--<div style="padding-top: 10px">-->
+        <!--<p>-->
+        <!--&lt;!&ndash;<span class="text-muted fw-500">Category: &nbsp;</span><span>{{ ( appService.Data.categories | filterById : images?.collection )?.name }}</span>&ndash;&gt;-->
+        <!--<span class="text-muted fw-500">License Type:&nbsp; </span><span>{{images?.license }}</span>-->
+        <!--</p></div>-->
+        <div class="divider mt-1"></div>
+        <div class="py-2">
+
+            <mat-table class="size-table mat-elevation-z8" [dataSource]="images?.sizes">
+
+
+                <ng-container matColumnDef="name">
+                    <div class="description-cell head-cell" *matHeaderCellDef style="text-align: left">Name</div>
+                    <div class="cell" *matCellDef="let element; let i = index">
+                        <mat-radio-group name="sizeList" fxLayout="column" (change)="changeSize(images?.sizes[i])">
+                            <mat-radio-button color="primary" name="sizeList" value="{{element.name}}"
+                                              [checked]="i==(images.sizes.length-1) ? true:false">{{element.name}}</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </ng-container>
+
+                <ng-container matColumnDef="size">
+                    <div class="description-cell head-cell" *matHeaderCellDef>Size</div>
+                    <div class="description-cell"
+                         *matCellDef="let element">
+                        <span *ngIf="collection==211">{{element.sizeMb}} MB</span>
+                        <span *ngIf="collection==160 || collection==172">{{element.pixels}}</span>
+                    </div>
+                </ng-container>
+
+                <ng-container matColumnDef="ext" *ngIf="collection=='211'">
+                    <div class="description-cell head-cell" *matHeaderCellDef>Ext</div>
+                    <div class="description-cell"
+                         *matCellDef="let element">{{element.ext}}</div>
+                </ng-container>
+                <ng-container matColumnDef="collection">
+                    <div class="description-cell head-cell" *matHeaderCellDef>Price(₹)</div>
+                    <div class="description-cell" *matCellDef="let element">
+                        <span *ngIf="collection==211"> Rs. {{element.price}} </span>
+                        <span *ngIf="collection==160 || collection==172"> Rs.  {{((appService.Data.categories | filterById : images?.collection)?.creativePrice)[element?.name]}}
+                            /- </span>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="collection=='211'">
+                    <mat-row mat-header-row *matHeaderRowDef="['name','size', 'ext','collection']"
+                             style="border-bottom: 1px solid #7a7a7a; margin-bottom:10px"></mat-row>
+
+                    <mat-row *matRowDef="let row; columns: ['name', 'size','ext','collection']"></mat-row>
+                </ng-container>
+                <ng-container *ngIf="collection=='160' || collection=='172'">
+                    <mat-row mat-header-row *matHeaderRowDef="['name','size','collection']"
+                             style="border-bottom: 1px solid #7a7a7a; margin-bottom:10px"></mat-row>
+
+                    <mat-row *matRowDef="let row; columns: ['name', 'size','collection']"></mat-row>
+                </ng-container>
+            </mat-table>
+
+        </div>
+
+        <div class="divider"></div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted py-1">
+
+            <!--            <button mat-raised-button color="accent" (click)="addToCart()" *ngIf="btn==0"><mat-icon>shopping_cart</mat-icon> Add To Cart</button>-->
+            <!--            <button mat-raised-button color="accent" (click)="download(false)" *ngIf="btn==2"><mat-icon>shopping_cart</mat-icon> Redownload </button>-->
+            <!--            <button mat-raised-button color="accent" (click)="download(false)" disabled="true" *ngIf="btn==2" style="opacity: 0.4"><mat-icon>shopping_cart</mat-icon> Download </button>-->
+
+            <button mat-raised-button color="accent" (click)="addToCart()" *ngIf="btn==0">
+                <mat-icon>shopping_cart</mat-icon>
+                Add To Cart
+            </button>
+            <button mat-raised-button color="accent" (click)="download(true)" *ngIf="btn==1">
+                <mat-icon>shopping_cart</mat-icon>
+                Download
+            </button>
+            <button mat-raised-button color="accent" (click)="reDownloadImage(images?.id, cartProduct?.size)"
+                    *ngIf="btn==2">
+                <mat-icon>shopping_cart</mat-icon>
+                Re-Download
+            </button>
+            <app-controls [product]="images" [type]="'all'"></app-controls>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted py-1">
+            <h3 *ngIf="btn==2">Missed the download? Contact our customer support at 8882559559</h3>
+        </div>
+    </div>
+</div>
+
+<div fxLayout="row wrap" class="mt-2">
+    <div fxFlex="100" fxFlex.gt-md="72" fxFlex.md="68">
+        <!--<mat-card> -->
+        <mat-tab-group [@.disabled]="true" [selectedIndex]="0">
+            <mat-tab label="Additional Information Of Video" class="description">
+                <div class="full-desc lh">
+                    <div fxLayout="row wrap" class="mt-2">
+                        <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">
+                            <span class="title">Video Id: </span>
+                        </div>
+                        <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">
+                            {{images?.id}}
+                        </div>
+                    </div>
+                    <div fxLayout="row wrap" class="mt-1">
+                        <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">
+                            <span class="title">License Type: </span>
+                        </div>
+                        <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">
+                            {{images?.license}}
+                        </div>
+                    </div>
+
+                    <div fxLayout="row wrap" class="mt-1">
+                        <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">
+                            <span class="title">Copyright ©: </span>
+                        </div>
+                        <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">
+<!--                            <a style="color: #ffffff;" [routerLink]="['/contributor', images?.collection,code, 'video', categoryId]"-->
+<!--                               target="_blank">{{images?.contributor}}</a>-->
+                            {{images?.contributor}}
+                        </div>
+                    </div>
+                    <!--                        <div fxLayout="row wrap" class="mt-1">-->
+                    <!--                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">-->
+                    <!--                                <span class="title">Extension: </span>-->
+                    <!--                            </div>-->
+                    <!--                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">-->
+                    <!--                                {{images?.ext}}-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                        <div fxLayout="row wrap" class="mt-1">-->
+                    <!--                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">-->
+                    <!--                                <span class="title">Model Released: </span>-->
+                    <!--                            </div>-->
+                    <!--                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">-->
+                    <!--                                {{images?.model ? 'Yes':'No'}}-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                        <div fxLayout="row wrap" class="mt-1">-->
+                    <!--                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">-->
+                    <!--                                <span class="title">Property Released: </span>-->
+                    <!--                            </div>-->
+                    <!--                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">-->
+                    <!--                                {{images?.property ? 'Yes':'No'}}-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+
+                    <div fxLayout="row wrap" class="mt-1">
+                        <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">
+                            <span class="title">Usage: </span>
+                        </div>
+                        <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">
+                            {{images?.usage}}
+                        </div>
+                    </div>
+
+                    <!--                        <div fxLayout="row wrap" class="mt-1" *ngIf="images?.location!='N/A'">-->
+                    <!--                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">-->
+                    <!--                                <span class="title">Location: </span>-->
+                    <!--                            </div>-->
+                    <!--                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">-->
+                    <!--                                {{images?.location}}-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+
+
+                    <!--                        <div fxLayout="row wrap" class="mt-1" *ngIf="images?.audio_channel!='No'">-->
+                    <!--                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">-->
+                    <!--                                <span class="title">Audio Channel: </span>-->
+                    <!--                            </div>-->
+                    <!--                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">-->
+                    <!--                                {{images?.audio_channel}}-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+
+
+                    <!--                        <div fxLayout="row wrap" class="mt-1">-->
+                    <!--                            <div fxFlex="40" fxFlex.gt-md="25" fxFlex.md="20">-->
+                    <!--                                <span class="title">Compressor: </span>-->
+                    <!--                            </div>-->
+                    <!--                            <div fxFlex="60" fxFlex.gt-md="75" fxFlex.md="80" class="secondry-text">-->
+                    <!--                                {{images?.compressor}}-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+
+
+                </div>
+            </mat-tab>
+
+        </mat-tab-group>
+        <!--</mat-card>-->
+    </div>
+    <!--<div fxFlex="100" fxFlex.gt-md="28" fxFlex.md="32" ngClass.gt-sm="pl-3" fxHide fxShow.gt-sm>-->
+
+    <!--</div>-->
+</div>
+
+
+<div class="py-2 mt-2">
+    <h2>Related Keyword</h2>
+    <div class="divider"></div>
+    <div fxLayout="row wrap" fxLayoutAlign="center center" class="mt-2 filter-brands" style="margin: 60px;">
+        <a mat-raised-button *ngFor="let tag of images?.tags" [routerLink]="['/search-videos',tag, categoryId]">
+            {{tag}}
+        </a>
+    </div>
+</div>
+
+<div class="py-2 mt-2">
+    <h2>Similiar Videos</h2>
+    <div class="divider"></div>
+    <div *ngIf="isfetch && relatedVideos.length >0">
+        <app-video-listing [results]="relatedVideos"></app-video-listing>
+    </div>
+    <mat-chip-list *ngIf="!isfetch">
+        <br/><br/>
+        <mat-chip selected="true">Loading...</mat-chip>
+    </mat-chip-list>
+    <div *ngIf="isfetch && relatedVideos.length<=0"><h4 class="mt-2">No Related Images Found</h4></div>
+</div>
+
+

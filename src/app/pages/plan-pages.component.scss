@@ -1,0 +1,79 @@
+.main{
+    min-height: 400px;
+    min-height: calc(100vh - 288px);
+    //padding: 16px;
+    padding-top: 0px;
+    margin-top: -30px;
+}
+.sidenav{
+    width: 250px;
+    padding: 8px 16px;
+    position: fixed;
+    .close{
+        margin-left: 178px;
+    }
+    .divider{
+        margin: 8px 0;
+    }
+}
+.cart-items-count{
+    position: absolute;
+    top: -3px;
+    left: 26px;
+    background: #f44336;
+    height: 18px;
+    width: 18px;
+    line-height: 18px;
+    border-radius: 50%;
+    font-size: 11px;
+}
+
+
+.mat-toolbar.mat-primary {
+    background: none !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
+
+
+.mat-button-ripple{
+    border-radius: 0px;
+}
+.search-form{
+    border-radius: 0;
+}
+.search-form button{
+    background: #e1e1e1;
+    color:#303030 !important;
+}
+.search-btn{
+    border-radius: 0;
+}
+.top-toolbar.mat-toolbar-row{
+    border-bottom: 0px !important;
+    margin-top: 10px !important ;
+    margin-bottom: 10px !important ;
+}
+
+.top-menu-dropdown{
+    max-width:500px !important;
+}
+
+@media (max-width: 575px) {
+    .top-header-btn .mat-button {
+        min-width: 40px;
+        padding: 0 4px;
+    }
+}
+
+
+//::ng-deep .logo-toolbar-main{
+//    z-index: 998;
+//    position: fixed;
+//}
+//app-menu{
+//    position: relative;
+//    top:100px;
+//}

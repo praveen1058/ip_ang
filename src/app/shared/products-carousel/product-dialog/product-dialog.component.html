@@ -1,0 +1,41 @@
+<!--<div class="close-btn-outer">-->
+    <!--<button mat-mini-fab color="warn" (click)="close()"><mat-icon>close</mat-icon></button>-->
+<!--</div>-->
+<!--<div mat-dialog-content>-->
+    <!--<div fxLayout="row wrap">-->
+        <!--<div fxFlex="100" fxFlex.gt-sm="70">-->
+            <!--<img [attr.src]="product.preview" style="max-width: 100%"/>-->
+        <!--</div>-->
+        <!--<div fxFlex="100" fxFlex.gt-sm="30" ngClass.gt-sm="px-2 m-0" ngClass.sm="mt-2" ngClass.xs="mt-2">-->
+            <!--<h2>{{product.id}}</h2>-->
+            <!--<div class="py-1 lh">-->
+                <!--<p><span class="text-muted fw-500">Category: </span><span>{{ ( appService.Data.categories | filterById : product.collection )?.name }}</span></p>-->
+                <!--<p><span class="text-muted fw-500">License Type: </span><span>{{product.license}}</span></p>-->
+            <!--</div>-->
+            <!--<p class="py-1 text-muted lh">{{product.caption}}</p>-->
+            <!--<div fxLayoutAlign="end center" class="text-muted">-->
+                 <!--<button [mat-dialog-close]="product" mat-icon-button matTooltip="View full details"><mat-icon>arrow_forward</mat-icon></button>-->
+            <!--</div>-->
+            <!--<div class="divider"></div>-->
+            <!--&lt;!&ndash;<app-controls [product]="product" [type]="'all'"></app-controls>&ndash;&gt;-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<div class="close-btn-outer">
+    <button mat-mini-fab color="warn" (click)="close()"><mat-icon>close</mat-icon></button>
+</div>
+<div mat-dialog-content>
+    <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-sm="100">
+<!--            <img [attr.src]="product.preview" style="max-width: 100%"/>-->
+            <img [attr.src]="product.preview" style="max-width: 100%"/>
+<!--            <img [attr.src]="product.thumbnail" style="max-width: 100%"-->
+<!--                 *ngIf="!(product.collection=='93' || product.collection=='179' || product.collection=='210')"/>-->
+
+            <div fxLayoutAlign="end center" class="text-muted">
+                <button [mat-dialog-close]="product" target="_blank" mat-icon-button matTooltip="View full details"><mat-icon>arrow_forward</mat-icon></button>
+            </div>
+        </div>
+    </div>
+</div>

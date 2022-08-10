@@ -1,0 +1,15 @@
+<div class="close-btn-outer">
+    <button mat-mini-fab color="warn" (click)="close()"><mat-icon>close</mat-icon></button>
+</div>
+<div mat-dialog-content>
+    <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-sm="100">
+            <video oncontextmenu="return false;"  autoplay controls loop controlsList="nodownload" *ngIf="video.collection=='211'"
+                   src="{{video.large_thumbnail}}"
+                   poster="{{video.thumbnail}}"> </video>
+            <video oncontextmenu="return false;"  autoplay controls loop controlsList="nodownload" *ngIf="video.collection!='211'"
+                   src="{{video.preview}}"
+                   poster="{{video.thumbnail}}"> </video>
+        </div>
+</div>
+</div>

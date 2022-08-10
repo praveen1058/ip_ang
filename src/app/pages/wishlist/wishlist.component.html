@@ -1,0 +1,54 @@
+<mat-chip-list *ngIf="wishList?.length == 0" class="mt-3">
+    <mat-chip color="warn" selected="true">YOU HAVE NO ITEMS IN LIGHTBOX.</mat-chip>
+</mat-chip-list>
+
+<mat-card *ngIf="wishList?.length > 0" class="mt-3">
+
+  <div class="mat-table wishlist-table">
+    <div class="mat-header-row">
+      <div class="mat-header-cell" style="max-width:25px;">Id</div>
+      <div class="mat-header-cell">Name</div>
+      <div class="mat-header-cell">No Of Image</div>
+      <div class="mat-header-cell">Shared</div>
+      <div class="mat-header-cell">Created At</div>
+      <div class="mat-header-cell">View All</div>
+      <div class="mat-header-cell">Share</div>
+      <div class="mat-header-cell">
+        <div class="px-1">
+          <button mat-raised-button color="warn" (click)="clear()">Clear All</button>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let wish of wishList, let i=index" class="mat-row">
+      <div class="mat-cell" style="max-width:25px;">{{i+1}}</div>
+      <div class="mat-cell">{{wish.name}}</div>
+      <div class="mat-cell">{{wish.no_of_images}}</div>
+      <div class="mat-cell">{{wish.no_of_sharing}}</div>
+      <div class="mat-cell">{{wish.created_at}}</div>
+      <div class="mat-cell">
+        <a mat-mini-fab color="primary"  [routerLink]="['/lightbox-detail', wish.id]" matTooltip="View All Images/Videos">
+        <mat-icon>remove_red_eye</mat-icon></a></div>
+      <div class="mat-cell"><button mat-mini-fab color="primary" (click)="shareList(wish)" matTooltip="Share Images/Videos">
+        <mat-icon>share</mat-icon>
+        </button>
+      </div>
+      <!--<div class="mat-cell">${{product.newPrice | number : '1.2-2'}}</div>-->
+      <!--<div class="mat-cell">{{ (product.availibilityCount > 0) ? 'In stock':'Unavailable'}}</div>-->
+      <!--<div class="mat-cell text-muted">-->
+        <!--<app-controls [product]="product" [type]="'wish'" (onQuantityChange)="getQuantity($event)"></app-controls>-->
+      <!--</div>-->
+      <div class="mat-cell">
+        <div class="p-1">          
+          <!--<button mat-mini-fab color="primary" (click)="addToCart(product)" matTooltip="Add to cart">-->
+              <!--<mat-icon>add_shopping_cart</mat-icon>-->
+          <!--</button>-->
+          <button mat-mini-fab color="warn" (click)="remove(wish)" matTooltip="Clear" class="remove">
+              <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+</mat-card>

@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "name": "Creative Images",
+    "hasSubCategory": false,
+    "parentId": 0
+  },
+  {
+    "id": 2,
+    "name": "Creative Videos",
+    "hasSubCategory": false,
+    "parentId": 0
+  },
+
+  {
+    "id": 3,
+    "name": "Editorial Images",
+    "hasSubCategory": false,
+    "parentId": 0
+  },
+  {
+    "id": 4,
+    "name": "Editorial Videos",
+    "hasSubCategory": false,
+    "parentId": 0
+  }
+]

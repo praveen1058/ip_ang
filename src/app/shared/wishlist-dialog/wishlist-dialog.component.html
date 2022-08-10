@@ -1,0 +1,41 @@
+<div class="close-btn-outer">
+    <button mat-mini-fab color="warn" (click)="close()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<div mat-dialog-content>
+    <div fxLayout="row wrap">
+        <h2 class="text-muted text-center">Add To Lightbox</h2>
+        <div fxFlex="100" fxFlex.gt-sm="100" class="p-2">
+            <div fxFlex="100" fxFlex.gt-md="30" fxFlex.md="35">
+                <img [attr.src]="product.thumbnail"/>
+            </div>
+            <div fxFlex="100" fxFlex.gt-md="70" fxFlex.md="65" fxFlex.xs="100">
+<ul>
+    <li *ngFor="let wish of wishList">{{wish?.name}}<button  mat-icon-button matTooltip="Add to lightbox" (click)="addToWishList(product,wish)"><mat-icon>camera_enhance</mat-icon></button></li>
+</ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div fxLayout="row wrap">
+        <form [formGroup]="wishlistForm" (ngSubmit)="onSubmit(wishlistForm.value, product)">
+            <div fxFlex="100" fxFlex.gt-md="80" fxFlex.md="75">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Title</mat-label>
+                    <input matInput placeholder="Title" formControlName="title" required>
+                    <mat-error *ngIf="wishlistForm.controls.title.errors?.required">Title is required</mat-error>
+                    <mat-error *ngIf="wishlistForm.controls.title.hasError('maxlength')">Title maxlength 30
+                        character
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="100" fxFlex.gt-md="30" fxFlex.md="25" class="mt-1 pl-3">
+                    <button color="primary" mat-raised-button>
+                        Create New
+                    </button>
+            </div>
+        </form>
+    </div>
+</div>

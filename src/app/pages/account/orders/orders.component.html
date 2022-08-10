@@ -1,0 +1,152 @@
+<div class="mat-table orders-table">
+    <div class="mat-header-row">
+      <div class="mat-header-cell">Order</div>
+      <div class="mat-header-cell">Date</div>
+      <div class="mat-header-cell">Type</div>
+      <div class="mat-header-cell">Status</div>
+      <div class="mat-header-cell">Total</div>
+      <div class="mat-header-cell">Invoice</div>
+    </div>
+    <div *ngFor="let order of orders" class="mat-row">
+      <div class="mat-cell"><span class="order">#{{order.id}}</span></div>
+      <div class="mat-cell">{{order.created_at | date :  "mediumDate"}}</div>
+      <div class="mat-cell" *ngIf="order.plan_id>0">Subscription</div>
+      <div class="mat-cell" *ngIf="order.plan_id==0">Cart</div>
+      <div class="mat-cell">Completed</div>
+      <div class="mat-cell">{{order.amount + order.tax_amount}}</div>
+      <div class="mat-cell">
+        <!--<div class="p-1 actions">          -->
+          <!--<button mat-mini-fab color="primary" matTooltip="View">-->
+              <!--<mat-icon>remove_red_eye</mat-icon>-->
+          <!--</button>-->
+          <a [routerLink]="['/account/receipt', order.id]" target="_blank" mat-mini-fab color="warn" matTooltip="View invoice" class="btn-invoice">
+              <mat-icon>receipt</mat-icon>
+          </a>
+        <!--</div>-->
+      </div>
+    </div>
+  </div>
+
+<!--<div class="p-gutter container">-->
+    <!--<div @fadeInUp class="card p-16">-->
+        <!--<div fxLayout="row">-->
+            <!--<div fxFlex="50%">-->
+                <!--<img class="h-40" src="../../../../assets/images/logo.png">-->
+
+            <!--</div>-->
+
+            <!--<div class="text-right body-1" fxFlex="50%" fxLayout="column" fxLayoutAlign="start end">-->
+                <!--<h4 class="body-2 text-secondary mt-0">Receipt No.</h4>-->
+
+                <!--<table class="mt-6">-->
+                    <!--<tbody>-->
+                    <!--<tr>-->
+                        <!--&lt;!&ndash;<td class="text-secondary body-2">INVOICE NO.</td>&ndash;&gt;-->
+                        <!--<td class="text-left pl-4">#569</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--&lt;!&ndash;<td class="text-secondary body-2">INVOICE DATE</td>&ndash;&gt;-->
+                        <!--<td class="text-left pl-4">10 Dec,2019</td>-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                <!--</table>-->
+
+
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div fxLayout="row">-->
+            <!--<h2><span>Receipt</span></h2>-->
+        <!--</div>-->
+        <!--<div fxLayout="row">-->
+            <!--<div fxFlex="50%">-->
+                <!--<div class="mt-12">-->
+
+                    <!--<h4 class="body-2 text-secondary mt-0">BILL FROM: </h4>-->
+                    <!--<h3 class="title m-0">Mahatta Multimedia Pvt. Ltd.</h3>-->
+                    <!--<div class="text-secondary">-->
+                        <!--<p class="m-0"> 8/17, Sarvapriya Vihar</p>-->
+                        <!--<p class="m-0">New Delhi - 110016</p>-->
+                        <!--<p class="m-0">Website : www.indiapicture.in</p>-->
+                        <!--<p class="m-0">Email : info@indiapicture.in</p>-->
+                        <!--<p class="m-0"> Contact : 8882668800</p>-->
+                        <!--<p class="m-0">GSTIN : 07AAECM4064D1ZQ</p>-->
+                        <!--<p class="m-0">HSAN / SAC : 997339</p>-->
+                        <!--<p class="m-0">PAN : AAECM4064D</p>-->
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="text-right body-1" fxFlex="50%" fxLayout="column" fxLayoutAlign="start end">-->
+                <!--<div class="mt-12">-->
+
+                    <!--<h4 class="body-2 text-secondary mt-0">BILL TO:</h4>-->
+                    <!--<h3 class="title m-0">Subhash Navetkar</h3>-->
+                    <!--<div class="text-secondary">-->
+                        <!--<p class="m-0"> 8/17, Sarvapriya Vihar</p>-->
+                        <!--<p class="m-0">Mumbai - 110016</p>-->
+                        <!--<p class="m-0">Place of supply : Maharastra</p>-->
+                        <!--<p class="m-0">Company Name : Hotstuff Advertising Pvt. Ltd.</p>-->
+                        <!--<p class="m-0">Email : info@indiapicture.in</p>-->
+                        <!--<p class="m-0">Contact : 8882668800</p>-->
+                        <!--<p class="m-0">GST No. : 07AAECM4064D1ZQ</p>-->
+                        <!--<p class="m-0">PAN No.: AAECM4064D</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div fxLayout="row" class="mt-3">-->
+            <!--<h4 class="body-2 text-secondary mt-0">Description Of Service :</h4>&nbsp;Licensing services for the right to use other intellectual property products and other resources n.e.c-->
+        <!--</div>-->
+        <!--<div fxLayout="row" class="mt-1">-->
+            <!--<h4 class="body-2 text-secondary mt-0">Tax paid on reverse charges :</h4>&nbsp;No-->
+        <!--</div>-->
+
+        <!--<div class="mat-table orders-table invoice-table mt-3">-->
+        <!--<div class="mat-header-row" style="background: #000000 !important; min-height: 30px;">-->
+        <!--<div class="mat-header-cell">S.No.</div>-->
+        <!--<div class="mat-header-cell">Item</div>-->
+        <!--<div class="mat-header-cell">Item Id</div>-->
+        <!--<div class="mat-header-cell">Item Type</div>-->
+        <!--<div class="mat-header-cell">Item Description</div>-->
+        <!--<div class="mat-header-cell">File Size</div>-->
+        <!--<div class="mat-header-cell">Qty.</div>-->
+        <!--<div class="mat-header-cell">Rate (Rs.)</div>-->
+        <!--<div class="mat-header-cell">Amount (Rs.)</div>-->
+        <!--</div>-->
+        <!--<div *ngFor="let order of orders" class="mat-row">-->
+        <!--<div class="mat-cell"><span class="order">#{{order.id}}</span></div>-->
+        <!--<div class="mat-cell">{{order.created_at | date :  "mediumDate"}}</div>-->
+        <!--<div class="mat-cell">Completed</div>-->
+        <!--<div class="mat-cell">{{order.amount + order.tax_amount}}</div>-->
+        <!--<div class="mat-cell">{{order.id}}</div>-->
+        <!--<div class="mat-cell">{{order.id}}</div>-->
+        <!--<div class="mat-cell">{{order.id}}</div>-->
+        <!--<div class="mat-cell">{{order.id}}</div>-->
+        <!--<div class="mat-cell">{{order.id}}</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="mt-8" fxLayout="column" fxLayoutAlign="start end">-->
+            <!--<table class="subheading-2 font-medium pr-6">-->
+                <!--<tbody>-->
+                <!--<tr>-->
+                    <!--<td class="text-secondary text-right">SUBTOTAL</td>-->
+                    <!--<td class="pl-12">$2,299.94‬</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td class="text-secondary text-right">TAX (19%)</td>-->
+                    <!--<td class="pl-12">$436.99‬</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td class="text-secondary text-right">DISCOUNT (5%)</td>-->
+                    <!--<td class="pl-12">-$114.99‬</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td class="headline font-medium text-right pt-6">TOTAL</td>-->
+                    <!--<td class="headline font-medium pl-12 pt-6">$2,621.94‬</td>-->
+                <!--</tr>-->
+                <!--</tbody>-->
+            <!--</table>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->

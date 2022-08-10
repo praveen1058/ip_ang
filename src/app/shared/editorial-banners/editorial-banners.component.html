@@ -1,0 +1,20 @@
+<div class="banners-container">
+<div class="flexbin flexbin-margin">
+
+    <div *ngFor="let banner of banners" class="banner">
+        <a [routerLink]="['/search', banner.keyword, category]">
+
+            <img [lazyLoad]="banner.image"
+                 [useSrcset]="true" defaultImage = '../../../assets/images/placeholder.png'></a>
+        <!--<img src="../../../assets/images/placeholder.png"></a>-->
+
+        <div  class="info" style="position: absolute; left: 0; top: 0%;">
+            <h1 class="title">{{banner.title}}</h1>
+            <h3 class="subtitle">{{banner.subtitle}}</h3>
+            <a [routerLink]="['/search',banner.keyword,category]" mat-raised-button color="primary" class="mt-2" style="">View Collection</a>
+        </div>
+
+    </div>
+</div>
+
+</div>

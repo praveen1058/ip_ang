@@ -1,0 +1,61 @@
+.orders-table.mat-table {
+    display: block;
+    overflow-x:auto;
+    .mat-row, .mat-header-row {
+        display: flex;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        align-items: center;
+        min-height: 48px;
+        padding: 0 24px;
+        min-width: 870px;
+    }
+    .mat-cell, .mat-header-cell {
+        flex: 1;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+    .mat-header-cell {
+        font-size: 14px;
+    }
+    .mat-cell{
+        font-size: 12px;
+        .order{
+            color: inherit;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .btn-invoice{
+            margin-left: 8px;
+        }
+        .actions{
+            text-align: right;
+        }
+    }
+}
+
+.p-gutter{
+    background: #ffffff;
+    color: #000000 !important;
+    padding: 40px;
+}
+
+h2 {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #000000;
+    line-height: 0.1em;
+    margin: 10px 0 20px;
+}
+
+h2 span {
+background: #fff;
+    padding:0 10px;
+}
+
+.invoice-table{
+    background: none !important;
+}
+.invoice-table.mat-header-row{
+    background: #ffffff !important;
+}

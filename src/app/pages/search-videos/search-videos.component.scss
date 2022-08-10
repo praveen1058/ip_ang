@@ -1,0 +1,318 @@
+.filter-sidenav{
+    width: 280px;
+    border: 0 !important;
+    .mat-expansion-panel-header-title {
+        text-transform: uppercase;
+    }
+}
+.filter-row{
+    color: #fff !important;
+    padding: 8px 12px;
+}
+.all-products{
+    min-height: 400px;
+    padding: 2px;
+    overflow: hidden;
+    &.p-left{
+        padding-left: 16px;
+    }
+}
+
+.products-wrapper{
+    margin: 8px -8px;
+    .col{
+        padding: 8px;
+    }
+}
+
+.categories-wrapper{
+    position: relative;
+    max-height: 300px;
+}
+
+.filter-buttons{
+    button{
+        min-width: 36px;
+        margin: 0 6px 10px 0;
+        padding: 0;
+    }
+}
+
+.filter-price{
+    .mat-slider-horizontal{
+        min-width: 110px;
+    }
+}
+
+.filter-brands{
+    button{
+        width: 66px;
+        height: 35px;
+        min-width: 66px;
+        margin: 0 6px 10px 0;
+        padding: 0px;
+        overflow: hidden;
+        background: #ffffff !important;
+        color: #303030 !important;
+    }
+}
+.filter-brands button.selected{
+    background: #455a64 !important;
+    color: #fff !important;
+}
+
+.filter-collection{
+    button{
+        //width: 66px;
+        width: inherit;
+        padding: 0 5px;
+        height: 30px;
+        min-width: 66px;
+        margin: 0 6px 10px 0;
+        font-size: 13px;
+        overflow: hidden;
+        line-height:10px;
+    }
+}
+
+
+.mat-card {
+    padding: 0;
+    margin: 5px;
+}
+
+.product-item .icons {
+    margin-top: 0px;
+    display: none;
+}
+
+.product-item img {
+    padding-bottom: 0;
+}
+
+.product-item:hover{
+    background: #000;
+    opacity: 0.9;
+    .icons{
+        display: block;
+    }
+}
+
+.title{
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: normal;
+    background: rgba(0,0,0,0.5);
+}
+
+.product-item .title{
+    color: #ffffff !important;
+    padding: 5px 10px;
+    border-radius: 0px;
+}
+.filter-row{
+    padding: 0px 12px;
+    //background: #ffffff;
+}
+
+.col{
+    //max-height: 250px;
+    padding: 0 !important;
+}
+
+.mat-panel-title h4 {
+    color: rgba(255,255,255,0.8) !important;
+}
+
+// Default variables that can be overrided
+$flexbin-row-height: 225px !default;
+$flexbin-row-height-smaller: 180px !default;
+
+$flexbin-space: 8px !default;
+
+$flexbin-tablet-max: 980px !default;
+$flexbin-row-height-tablet: 150px !default;
+$flexbin-space-tablet: $flexbin-space !default;
+
+$flexbin-phone-max: 400px !default;
+$flexbin-row-height-phone: 100px !default;
+$flexbin-space-phone: $flexbin-space !default;
+
+// Minxin for customize multiple Flexbin layout
+// For example, 300px height for desktop devices, 150px height for mobile devices
+@mixin flexbin($row-height, $space) {
+    display: flex;
+    overflow: hidden;
+    flex-wrap: wrap;
+    margin: - $space / 2;
+
+    // Let final row align left fit if images are not enough to fill
+    // If the gap is very small, fill the final row
+    &:after {
+        content: '';
+        flex-grow: 999999999; // avoid final row zoom too much to fit width
+        min-width: $row-height; // avoid small gap in final row (< $row-height)
+        height: 0;
+    }
+
+    > * {
+        position: relative;
+        display: block;
+        height: $row-height;
+        margin: $space / 2;
+        flex-grow: 1;
+        //border: 3px solid #fff;
+    }
+
+    video {
+        height: $row-height;
+        object-fit: cover;
+        max-width: 100%;
+        min-width: 100%;
+        vertical-align: middle;
+    }
+
+    img {
+        height: $row-height;
+        object-fit: cover;
+        max-width: 100%;
+        min-width: 100%;
+        vertical-align: middle;
+    }
+    // Add margin around flexbin gallery
+    // Visual margin is the same with space between rows
+    &.flexbin-margin {
+        margin: $space / 2;
+    }
+}
+
+// CSS class for basic usage
+.flexbin {
+    // Desktop devices
+    @include flexbin($flexbin-row-height, $flexbin-space);
+
+    // Tablet devices
+    @media (max-width: $flexbin-tablet-max) {
+        @include flexbin($flexbin-row-height-tablet, $flexbin-space-tablet);
+    }
+
+    // Phone devices
+    @media (max-width: $flexbin-phone-max) {
+        @include flexbin($flexbin-row-height-phone, $flexbin-space-phone);
+    }
+}
+
+.flexbin-smaller {
+    // Desktop devices
+    @include flexbin($flexbin-row-height-smaller, $flexbin-space);
+
+    // Tablet devices
+    @media (max-width: $flexbin-tablet-max) {
+        @include flexbin($flexbin-row-height-tablet, $flexbin-space-tablet);
+    }
+
+    // Phone devices
+    @media (max-width: $flexbin-phone-max) {
+        @include flexbin($flexbin-row-height-phone, $flexbin-space-phone);
+    }
+}
+
+.sort-btn{
+    width: 110px !important;
+
+}
+.mat-expansion-panel{
+    background: #f6f6f6 !important;
+    color:#303030 !important;
+}
+
+.filter-sidenav .mat-expansion-panel-header-title{
+    text-transform: none !important;
+}
+.mat-drawer{
+    background: #f6f6f6 !important;
+}
+
+@media (min-width: 980px) {
+mat-sidenav-container {
+    width: 99vw;
+    position: relative;
+    margin-left: -50vw;
+    left: 50%;
+}
+
+}
+
+.filter-button{
+    color: #ffffff !important;
+    margin-top: 20px;
+    font-size: 16px
+}
+
+.custom-pagination {
+    margin-top: 20px;
+    .steps-indicator {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        color: gray;
+
+        .pagination-previous, .pagination-next{
+            padding: 3px 8px;
+            border: 1px solid #e1e1e1;
+            font-size: 12px;
+            font-weight: bold;
+            background: #eee;
+            border-radius: 5px;
+            margin:5px;
+
+        }
+        .page{
+            padding: 3px 8px;
+            font-size: 15px;
+            margin:5px;
+            color:#fff;
+        }
+        .current-page{
+            border: 1px solid #ddd;
+            background: #fff;
+            color: #000;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+    }
+
+    .invisible {
+        display: none;
+    }
+
+    @media screen and (max-width: 425px) {
+        .steps-indicator.responsive .small-screen {
+            display: block;
+            margin: auto;
+        }
+        .steps-indicator.responsive p:not(.small-screen) {
+            display: none;
+        }
+    }
+}
+
+.mat-expansion-panel-header{
+    font-size: 14px;
+    height: 40px !important;
+}
+.duration-filter{
+    color:#000 !important;
+}
+.suggested-words a{
+    border-radius: 5px;
+    margin: 5px;
+    line-height: 30px;
+    background: #fff !important;
+    color: #333 !important;
+    .mat-icon{
+        height: 18px;
+        width: 18px;
+        font-size: 18px
+    }
+}

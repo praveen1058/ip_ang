@@ -1,0 +1,208 @@
+<div fxLayout="row" style="margin-bottom: 10px" *ngIf="orderDetail?.id>0">
+<div class="text-right body-1" fxFlex fxLayout="column" fxLayoutAlign="start end">
+<button mat-raised-button color="white" id="id" (click)="getPDF()" style="background: #fff;color:#000">Download PDF</button>
+</div>
+</div>
+
+<div class="p-gutter" #canvas *ngIf="orderDetail?.id>0">
+    <div @fadeInUp class="card p-16">
+        <div fxLayout="row">
+            <div fxFlex="50%">
+                <img class="h-40" src="../../../../assets/images/logo_black.png">
+
+            </div>
+
+            <div class="text-right body-1" fxFlex="50%" fxLayout="column" fxLayoutAlign="start end">
+                <h4 class="body-2 text-secondary mt-0">Receipt No.</h4>
+
+                <table class="mt-6">
+                    <tbody>
+                    <tr>
+                        <!--<td class="text-secondary body-2">INVOICE NO.</td>-->
+                        <td class="text-left pl-4">#{{orderDetail?.id}}</td>
+                    </tr>
+                    <tr>
+                        <!--<td class="text-secondary body-2">INVOICE DATE</td>-->
+                        <td class="text-left pl-4">{{orderDetail?.created_at | date :  "dd MMM, yyyy"}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+        <div fxLayout="row">
+            <h2><span>Receipt</span></h2>
+        </div>
+        <div fxLayout="row">
+            <div fxFlex="50%">
+                <div class="mt-12">
+
+                    <h4 class="body-2 text-secondary mt-0">BILL FROM: </h4>
+                    <h3 class="title m-0">Mahatta Multimedia Pvt. Ltd.</h3>
+                    <div class="text-secondary">
+                        <p class="m-0"> 8/17, Sarvapriya Vihar</p>
+                        <p class="m-0">New Delhi - 110016</p>
+                        <p class="m-0">Website : &nbsp; www.indiapicture.in</p>
+                        <p class="m-0">Email :  &nbsp;info@indiapicture.in</p>
+                        <p class="m-0"> Contact : &nbsp; 8882559559</p>
+                        <p class="m-0">GSTIN :  &nbsp;07AAECM4064D1ZQ</p>
+                        <p class="m-0">HSAN / SAC :  &nbsp;997339</p>
+                        <p class="m-0">PAN :  &nbsp;AAECM4064D</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="text-right body-1" fxFlex="50%" fxLayout="column" fxLayoutAlign="start end">
+                <div class="mt-12">
+
+                    <h4 class="body-2 text-secondary mt-0">BILL TO:</h4>
+                    <h3 class="title m-0">{{orderAddress?.customers_name}}</h3>
+                    <div class="text-secondary">
+                        <p class="m-0"> {{orderAddress?.customers_address}}</p>
+                        <p class="m-0">{{orderAddress?.customers_city}} <span *ngIf="currentUser?.customers_customers_postcode">
+                            - {{orderAddress?.customers_customers_postcode}}</span></p>
+                        <p class="m-0">Place of supply : &nbsp; {{orderAddress?.customers_state}}</p>
+                        <p class="m-0">Company Name :  &nbsp;<span *ngIf="currentUser?.customers_company==''">N/A</span>{{orderAddress?.customers_company}}</p>
+                        <p class="m-0">Email : &nbsp;{{orderAddress?.customers_email}}</p>
+                        <p class="m-0">Contact : &nbsp; {{orderAddress?.customers_telephone}}</p>
+                        <p class="m-0">GST No. :  &nbsp;<span *ngIf="currentUser.customer_gst_no==''"> N/A</span> {{currentUser.customer_gst_no}}</p>
+                        <p class="m-0">PAN No. :  &nbsp; <span *ngIf="currentUser.pan_card==''">N/A</span>{{currentUser.pan_card}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div fxLayout="row" class="mt-3">
+            <h4 class="body-2 text-secondary mt-0">Description Of Service :</h4>&nbsp;Licensing services for the right to use other intellectual property products and other resources n.e.c
+        </div>
+        <div fxLayout="row" class="mt-1">
+            <h4 class="body-2 text-secondary mt-0">Tax paid on reverse charges :</h4>&nbsp;No
+        </div>
+
+        <div class="mat-table orders-table invoice-table mt-3" *ngIf="orderDetail?.plan_id==0">
+        <div class="mat-header-row" style="background: #000000 !important; min-height: 30px;">
+        <div class="mat-header-cell" style="max-width: 40px">S.No.</div>
+        <div class="mat-header-cell" style="min-width: 100px">Item</div>
+        <div class="mat-header-cell">Item Id</div>
+        <div class="mat-header-cell">Item Type</div>
+        <div class="mat-header-cell" style="min-width: 160px; margin-right: 20px;">Item Description</div>
+        <div class="mat-header-cell">File Size</div>
+        <div class="mat-header-cell">Qty.</div>
+        <div class="mat-header-cell">Rate (Rs.)</div>
+        <div class="mat-header-cell">Amount (Rs.)</div>
+        </div>
+        <div *ngFor="let order of orderImages; let i= index" class="mat-row">
+        <div class="mat-cell" style="max-width: 40px"><span class="order">{{i+1}}</span></div>
+        <div class="mat-cell" style="min-width: 100px">{{order.filename}}</div>
+        <div class="mat-cell">{{order.image_id}}</div>
+        <div class="mat-cell">{{order.type}}</div>
+        <div class="mat-cell" style="min-width: 160px; margin-right: 20px;">{{order.caption}}</div>
+        <div class="mat-cell">{{order.size}}</div>
+        <div class="mat-cell">1</div>
+        <div class="mat-cell">{{order.price}}</div>
+        <div class="mat-cell">{{order.price}}</div>
+        </div>
+        </div>
+
+        <div class="mat-table orders-table invoice-table mt-3" *ngIf="orderDetail?.plan_id>0">
+            <div class="mat-header-row" style="background: #000000 !important; min-height: 30px;">
+                <div class="mat-header-cell" style="max-width: 40px">S.No.</div>
+                <div class="mat-header-cell" style="min-width: 100px">Asset</div>
+                <div class="mat-header-cell">Pack Id</div>
+                <div class="mat-header-cell" style="min-width: 160px; margin-right: 20px;">Pack Description</div>
+                <div class="mat-header-cell">Amount (Rs.)</div>
+            </div>
+            <div class="mat-row">
+                <div class="mat-cell" style="max-width: 40px"><span class="order">1</span></div>
+                <div class="mat-cell" style="min-width: 100px">Image</div>
+                <div class="mat-cell">{{customerPlan?.id}}</div>
+
+                <div class="mat-cell" style="min-width: 160px; margin-right: 20px;">{{customerPlan?.total_images}} images/videos for 1 month,
+                30 days subscription</div>
+                <div class="mat-cell">{{orderDetail?.amount}}</div>
+            </div>
+        </div>
+
+        <div class="mt-3" fxLayout="column" fxLayoutAlign="start end">
+            <table class="subheading-2 font-medium pr-6">
+                <tbody>
+                <div>
+                <tr>
+                    <td class="text-secondary" width="100px">Sub Total</td>
+                    <td class="pl-3 text-right" width="90px">{{orderDetail?.amount}}</td>
+                </tr>
+                </div>
+                <div *ngIf="orderDetail?.tax_type=='Cgst-6%, Sgst-6%'">
+                <tr>
+                    <td class="text-secondary" width="100px">CGST (6%)</td>
+                    <td class="pl-3 text-right" width="90px">{{orderDetail?.tax_amount}}</td>
+                </tr>
+
+                <tr>
+                    <td class="text-secondary" width="100px">SGST (6%)</td>
+                    <td class="pl-3 text-right" width="90px">{{orderDetail?.tax_amount}}</td>
+                </tr>
+                </div>
+
+                <div *ngIf="orderDetail?.tax_type=='Cgst-9%, Sgst-9%'">
+                    <tr>
+                        <td class="text-secondary" width="100px">CGST (9%)</td>
+                        <td class="pl-3 text-right" width="90px">{{orderDetail?.tax_amount}}</td>
+                    </tr>
+    
+                    <tr>
+                        <td class="text-secondary" width="100px">SGST (9%)</td>
+                        <td class="pl-3 text-right" width="90px">{{orderDetail?.tax_amount}}</td>
+                    </tr>
+                    </div>
+
+                <div *ngIf="orderDetail?.tax_type=='Gst-12%'">
+                    <tr>
+                        <td class="text-secondary" width="100px">GST (12%)</td>
+                        <td class="pl-3 text-right" width="90px">{{orderDetail?.tax_amount}}</td>
+                    </tr>
+                </div>
+                <div *ngIf="orderDetail?.tax_type=='Gst-18%'">
+                    <tr>
+                        <td class="text-secondary" width="100px">GST (18%)</td>
+                        <td class="pl-3 text-right" width="90px">{{orderDetail?.tax_amount}}</td>
+                    </tr>
+                </div>
+
+                <div style="border-top:1px dotted #e1e1e1; border-bottom:1px dotted #e1e1e1">
+                <tr>
+                    <td class="headline font-medium pt-3" width="100px">Grand Total</td>
+                    <td class="headline font-medium pl-3 text-right pt-3" width="90px">Rs. {{ orderDetail?.amount +orderDetail?.tax_amount}}</td>
+                </tr>
+                </div>
+                </tbody>
+            </table>
+
+
+        </div>
+        <div fxLayout="column" fxLayoutAlign="start">
+            <div><span class="headline"> Payment Status : </span>Paid</div>
+        </div>
+
+        <div class="mt-3" fxLayout="column" fxLayoutAlign="start end">
+            <div class="text-center">
+            <div class="headline">For Mahatta Multimedia Pvt. Ltd.</div>
+            <img class="mt-1" src="../../../../assets/images/Authorized_signatory_sign.png" class="pt-3" width="80">
+            <div class="mt-1">Authourised Signatory</div>
+            </div>
+        </div>
+        <div style="margin-top: 100px" fxLayout="column" fxLayoutAlign="space-between center">
+                        Thanks for your order, we look forward to serve you again<br/>
+            For help with any of our online services, please contact us at <br/>
+          <div class="mt-1"> <img src="../../../../assets/images/telephone.png" width="15" ><span style="padding-left: 10px;">844899725</span>
+            <img src="../../../../assets/images/black-back-closed-envelope-shape.png" class="pl-3" width="15">
+              <span style="padding-left: 10px;">care@indiapicture.in</span>
+          </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="orderDetail?.id==null || orderDetail?.id<=0">
+    <h2>Unauthorised Access</h2>
+</div>

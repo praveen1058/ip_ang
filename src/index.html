@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <script type="text/javascript">
+        // console.log(window.location.hostname);
+        if (window.location.hostname == 'indiapiture.in') {
+            var link = document.createElement('meta');
+            link.setAttribute('http-equiv', 'Content-Security-Policy');
+            link.content = "upgrade-insecure-requests";
+            document.getElementsByTagName('head')[0].appendChild(link);
+        }
+    </script>
+
+    <meta charset="utf-8">
+    <title>Indiapicture</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162330039-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-162330039-1');
+
+        function gtag_report_conversion(url) {
+            var callback = function () {
+                if (typeof (url) != 'undefined') {
+                    window.location = url;
+                }
+            };
+            gtag('event', 'conversion', {
+                'send_to': 'AW-817049813/nuTICK2ctswBENXhzIUD',
+                'event_callback': callback
+            });
+            return false;
+        }
+    </script>
+    <!-- Start of Zendesk Widget script -->
+    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=web_widget/mahattasupport.zendesk.com"
+            async defer></script>
+    <!-- End of Zendesk Widget script -->
+</head>
+<body>
+<app-root></app-root>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+</body>
+</html>
